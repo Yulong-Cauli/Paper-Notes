@@ -1,8 +1,7 @@
 # CaDDN: Categorical Depth Distribution Network
 
 **出处会议：** CVPR 2021  
-**发表机构：** 上海 AI Lab, 香港大学, 香港中文大学  
-**是否开源：** OpenPCDet包含，https://github.com/open-mmlab/OpenPCDet
+**是否开源：** OpenPCDet包含，https://github.com/open-mmlab/OpenPCDet  
 **关键词：** 视锥神经网络、三线性插值 
 
 ---
