@@ -1,0 +1,8 @@
+# Ignore system files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Ignore temporary files
+*.tmp
+*.log

@@ -1,16 +1,22 @@
 # CaDDN: Categorical Depth Distribution Network
 
-解决单目 3D 检测中深度信息缺失和特征模糊（Feature Smearing）的问题。通过预测像素级的**分类深度分布（Categorical Depth Distribution）**，将 2D 图像特征精准地投影到 3D 视锥空间，并进行**端到端（End-to-End）**的联合训练。
+**出处会议：** CVPR 2021  
+**发表机构：** 上海 AI Lab, 香港大学, 香港中文大学  
+**是否开源：** OpenPCDet包含，https://github.com/open-mmlab/OpenPCDet
+**关键词：** 视锥神经网络、三线性插值 
 
-------
+---
 
-## Architecture
+## 1. 概述
 
+解决单目 3D 检测中深度信息缺失和特征模糊的问题。
+
+通过预测像素级的**分类深度分布（Categorical Depth Distribution）**，将 2D 图像特征精准地投影到 3D 视锥空间，并进行**端到端（End-to-End）**的联合训练。
 $$
 \text{Image} \rightarrow \text{Frustum Feature Net} \rightarrow \text{Frustum-to-Voxel} \rightarrow \text{Voxel Collapse} \rightarrow \text{BEV Detection}
 $$
 
-![](../../assets/CaDDN/Figure2_pipeline.png)
+![](../assets/CaDDN/Figure2_pipeline.png)
 
 **整体流程**：
 
@@ -21,7 +27,7 @@ $$
 
 ------
 
-## 方法
+## 2. 方法
 
 ### 视锥特征网络 (Frustum Feature Network)
 
@@ -48,7 +54,7 @@ $$
   - **物理意义**：将图像特征 $F$ 按照深度概率 $D$ 进行加权，沿深度轴“拉伸”。概率高的地方特征强，概率低的地方特征被抑制。
   - **解决痛点**：解决了传统方法中的特征拖影（Smearing）问题，生成的视锥特征 $G$ 更加**尖锐（Sharp）**。
 
-![](../../assets/CaDDN/Figure3_cross.png)
+![](../assets/CaDDN/Figure3_cross.png)
 
 ### 视锥到体素转换 (Frustum to Voxel Transformation)
 
@@ -70,7 +76,7 @@ $$
      d_c = d_{min} + \frac{d_{max}-d_{min}}{D(D+1)} \cdot d_i(d_i+1)
      $$
 
-     ![](../../assets/CaDDN/Figure_DepthBin.png)
+     ![](../assets/CaDDN/Figure_DepthBin.png)
 
      - *LID 优势*：相比均匀切分（UD），LID 在近处网格密（精度高），远处网格稀（适应稀疏点云），实现了更好的平衡。
   
@@ -149,7 +155,7 @@ $$
 
 ------
 
-## Loss Function
+## 3. Loss Function
 
 CaDDN 采用多任务联合损失进行端到端训练：
 $$
@@ -174,7 +180,7 @@ $$
 
 ------
 
-## 消融实验 (Ablation Studies)
+## 4. 消融实验
 
 #### Table 3: CaDDN 内部模块消融 (CaDDN Ablation Experiments)
 
@@ -196,11 +202,11 @@ $$
 
 | **Exp.** | **D 来源** | **Ldepth 训练方式** | **⊗ (Soft vs Hard)**    | **核心配置与作用解析**                                       |
 | -------- | ---------- | ------------------- | ----------------------- | ------------------------------------------------------------ |
-| **1**    | **BTS**    | **Sep. (分步)**     | Hard                    | **SOTA 深度图基准 1** 先用预训练好的 BTS 网络生成深度图，**固定参数**，转换成 One-hot 编码输入给 CaDDN 检测头。这是典型的“两阶段”做法。 **作用**：作为强力基准，测试通用的深度估计对检测有多大帮助。 |
-| **2**    | **DORN**   | **Sep. (分步)**     | Hard                    | **SOTA 深度图基准 2** 同上，使用 DORN 网络生成深度图。 **作用**：DORN 是当时很强的深度估计器，用来证明 CaDDN 是否能超越这些通用网络。 |
-| **3**    | **CaDDN**  | **Sep. (分步)**     | Hard                    | **CaDDN 分步训练版** 使用 CaDDN 的结构，但是**先把深度分支训练好，冻结参数**，再训练检测头。 **作用**：控制变量。对比 Exp 3 和 Exp 1/2，发现 CaDDN 的深度结构本身略好于 BTS/DORN，但优势不大。 |
-| **4**    | **CaDDN**  | **Joint (联合)**    | **Hard ($\times$)**     | **联合训练 + 硬选择 (Hard Selection)** 开启端到端联合训练，但在生成视锥特征时，**只取概率最大的那个深度 Bin** (Argmax)，丢弃其他概率值。 **作用**： 1. 对比 Exp 4 vs 3：证明**联合训练**有效 (+2.97% AP)，因为深度模块会为了适应检测任务而优化。 2. 此时丢失了“不确定性”信息。 |
-| **5**    | **CaDDN**  | **Joint (联合)**    | **Soft ($\checkmark$)** | **联合训练 + 软分布 (Full Distribution)** 使用完整的概率分布进行外积操作 ($G = D \otimes F$)。 **作用**：对比 Exp 5 vs 4，性能显著提升 (+2.96% AP)。 **结论**：证明保留深度的**不确定性（Uncertainty）**至关重要。如果网络拿不准，把特征分散在多个深度 Bin 里比武断地选一个（可能选错）要好得多。 |
+| **1**    | **BTS**    | **分步**            | Hard                    | **SOTA 深度图基准 1** 先用预训练好的 BTS 网络生成深度图，**固定参数**，转换成 One-hot 编码输入给 CaDDN 检测头。这是典型的“两阶段”做法。 **作用**：作为强力基准，测试通用的深度估计对检测有多大帮助。 |
+| **2**    | **DORN**   | **分步**            | Hard                    | **SOTA 深度图基准 2** 同上，使用 DORN 网络生成深度图。 **作用**：DORN 是当时很强的深度估计器，用来证明 CaDDN 是否能超越这些通用网络。 |
+| **3**    | **CaDDN**  | **分步**            | Hard                    | **CaDDN 分步训练版** 使用 CaDDN 的结构，但是**先把深度分支训练好，冻结参数**，再训练检测头。 **作用**：控制变量。对比 Exp 3 和 Exp 1/2，发现 CaDDN 的深度结构本身略好于 BTS/DORN，但优势不大。 |
+| **4**    | **CaDDN**  | **联合**            | **Hard ($\times$)**     | **联合训练 + 硬选择 (Hard Selection)** 开启端到端联合训练，但在生成视锥特征时，**只取概率最大的那个深度 Bin** (Argmax)，丢弃其他概率值。 **作用**： 1. 对比 Exp 4 vs 3：证明**联合训练**有效 (+2.97% AP)，因为深度模块会为了适应检测任务而优化。 2. 此时丢失了“不确定性”信息。 |
+| **5**    | **CaDDN**  | **联合**            | **Soft ($\checkmark$)** | **联合训练 + 软分布 (Full Distribution)** 使用完整的概率分布进行外积操作 ($G = D \otimes F$)。 **作用**：对比 Exp 5 vs 4，性能显著提升 (+2.96% AP)。 **结论**：证明保留深度的**不确定性（Uncertainty）**至关重要。如果网络拿不准，把特征分散在多个深度 Bin 里比武断地选一个（可能选错）要好得多。 |
 
 1. **深度必须监督**：不要指望网络在做检测任务时顺便学会深度，必须用 LiDAR 真值手把手教 (Table 3 Exp 3)。
 2. **不仅要准，还要专**：通用的深度估计网络（BTS/DORN）不如专门为了检测任务而联合训练的网络 (Table 4 Exp 4 vs 1/2)。
