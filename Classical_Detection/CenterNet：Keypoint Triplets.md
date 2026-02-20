@@ -1,6 +1,6 @@
 # CenterNet：Keypoint Triplets
 
-**出处会议：** ECCV 2019  
+**出处会议：** ICCV 2019  
 **是否开源：** 是，https://github.com/Duankaiwen/CenterNet  
 **关键词：** 关键点三元组、中心点验证、中心池化、级联角点池化
 

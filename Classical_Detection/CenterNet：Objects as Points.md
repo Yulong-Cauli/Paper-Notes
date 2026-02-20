@@ -1,7 +1,7 @@
 # CenterNet：Objects as Points
 
 **出处会议：** arXiv 2019  
-**是否开源：** 是，https://github.com/xingyizhou/CenterNet  
+**是否开源：** https://github.com/xingyizhou/CenterNet  
 **关键词：** 中心点检测、热力图、无锚框、无NMS
 
 ---

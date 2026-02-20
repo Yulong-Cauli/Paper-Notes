@@ -1,8 +1,8 @@
 # Quantization without Tears (QwT)
 
-**出处会议：** ICCV 2023  
-**是否开源：** 没有  
-**关键词：** 量化、线性补偿层、无泪量化、结构修正
+**出处会议：** CVPR 2025  
+**是否开源：** https://github.com/wujx2001/QwT  
+**关键词：** 线性补偿层
 
 ---
 
@@ -11,6 +11,8 @@
 传统量化方法通常遵循 **$S^{\mathbb{Z}} = S$** 的原则，即量化后的模型结构必须与原模型完全一致。
 
 QwT 提出了全新的范式，允许量化模型的结构发生微小变化，即 $S^{\mathbb{Z}} = S \cup S_c$。在量化后的每一个网络块（Block）后面并联一个极其轻量级的线性补偿层 $S_c$。
+
+<div align="center"><img src="../assets/QwT/Figure2.png" width="50%"></div>
 
 ------
 

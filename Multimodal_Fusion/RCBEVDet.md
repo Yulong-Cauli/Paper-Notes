@@ -1,7 +1,7 @@
 # RCBEVDet
 
 **出处会议：** CVPR 2024  
-**是否开源：** 是，https://github.com/qiuqiangkong/RCBEVDet  
+**是否开源：** https://github.com/VDIGPKU/RCBEVDet  
 **关键词：** 雷达-摄像头融合、BEV特征提取、交叉注意力融合、RadarBEVNet
 
 ---

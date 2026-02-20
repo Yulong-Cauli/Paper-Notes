@@ -1,7 +1,7 @@
 # CornerNet
 
 **出处会议：** ECCV 2018  
-**是否开源：** 是，https://github.com/princeton-vl/CornerNet  
+**是否开源：** https://github.com/princeton-vl/CornerNet  
 **关键词：** 关键点检测、角点池化、Associative Embedding、无锚框
 
 ---

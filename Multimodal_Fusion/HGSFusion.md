@@ -1,8 +1,8 @@
 # HGSFusion 学习笔记：带混合生成与同步的雷达-相机融合 3D 目标检测
 
-**出处会议：** AAAI 2024  
-**是否开源：** 是，https://github.com/garfield-cpp/HGSFusion  
-**关键词：** 雷达-相机融合、点云生成、深度同步、混合概率分布
+**出处会议：** AAAI 2025  
+**是否开源：** https://github.com/garfield-cpp/HGSFusion  
+**关键词：** 4D毫米波雷达-相机融合、点云生成、深度同步、混合概率分布
 
 ---
 
@@ -33,13 +33,11 @@ RHGM 的设计逻辑是：雷达点稀疏是因为检测阈值限制，方位不
   f_{G}(u,v)=\frac{1}{2\pi b_{1}b_{2}}exp[-\frac{1}{2}(\frac{(u-u_{i})^{2}}{b_{1}^{2}}+\frac{(v-v_{i})^{2}}{b_{2}^{2}})]
   $$
   
-
 - **均匀分布区域**：在掩码内但远离前景点的区域，因为缺乏先验信息，采用均匀分布：
   $$
   f_{U}(u,v)=\frac{1}{A}
   $$
   
-
 - **混合采样公式**：
   $$
   f_{H}(u,v)=\begin{cases}f_{G}(u,v) & (u,v)\in R_{i}(u,v) \\ f_{U}(u,v) & (u,v)\in \complement_{R_{m}}R_{i}(u,v) \\ 0 & (u,v)\notin R_{m}\end{cases}

@@ -1,7 +1,7 @@
 # RadarDistill
 
 **出处会议：** CVPR 2024  
-**是否开源：** 是，https://github.com/KAIST-AVLab/RadarDistill  
+**是否开源：** https://github.com/geonhobang/RadarDistill  
 **关键词：** 知识蒸馏、雷达3D检测、跨模态对齐、LiDAR-Radar
 
 ---

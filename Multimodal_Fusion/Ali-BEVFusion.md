@@ -1,7 +1,7 @@
-# BEVFusion
+# AIi-BEVFusion
 
 **出处会议：** NeurIPS 2022  
-**是否开源：** 是，https://github.com/ADLab-AutoDrive/BEVFusion  
+**是否开源：** https://github.com/ADLab-AutoDrive/BEVFusion  
 **关键词：** 多模态融合、BEV空间、动态融合模块、激光雷达-摄像头融合
 
 ---

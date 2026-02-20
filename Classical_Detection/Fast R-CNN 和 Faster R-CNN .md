@@ -1,7 +1,7 @@
 # Fast R-CNN 和 Faster R-CNN 
 
-**出处会议：** Fast R-CNN: ICCV 2015 / Faster R-CNN: NeurIPS 2015  
-**是否开源：** 是，https://github.com/rbgirshick/py-faster-rcnn  
+**出处会议：** Fast R-CNN: ICCV 2015 / Faster R-CNN: IEEE Transactions on Pattern Analysis and Machine Intelligence 2017  
+**是否开源：** https://github.com/ShaoqingRen/faster_rcnn  
 **关键词：** RoI Pooling、候选区域网络(RPN)、锚框、多任务损失
 
 ---

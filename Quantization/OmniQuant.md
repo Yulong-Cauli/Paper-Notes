@@ -1,7 +1,7 @@
 # OmniQuant
 
 **出处会议：** ICLR 2024  
-**是否开源：** 是，https://github.com/OpenGVLab/OmniQuant  
+**是否开源：** https://github.com/OpenGVLab/OmniQuant  
 **关键词：** LLM量化、训练后量化(PTQ)、可学习量化参数、LWC、LET
 
 ---
