@@ -1,0 +1,874 @@
+{
+  "table_of_contents": [
+    {
+      "title": "RCBEVDet: Radar-camera Fusion in Bird's Eye View for 3D Object Detection",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          56.1796875,
+          105.9219970703125
+        ],
+        [
+          538.4517211914062,
+          105.1875
+        ],
+        [
+          538.4517211914062,
+          120.2681884765625
+        ],
+        [
+          56.1796875,
+          120.2681884765625
+        ]
+      ]
+    },
+    {
+      "title": "Abstract",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          144.6328125,
+          269.15625
+        ],
+        [
+          190.48033142089844,
+          269.15625
+        ],
+        [
+          190.48033142089844,
+          282.302490234375
+        ],
+        [
+          144.6328125,
+          282.302490234375
+        ]
+      ]
+    },
+    {
+      "title": "1. Introduction",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          308.86199951171875,
+          491.36907958984375
+        ],
+        [
+          385.69805908203125,
+          491.36907958984375
+        ],
+        [
+          385.69805908203125,
+          503.32427978515625
+        ],
+        [
+          308.86199951171875,
+          503.32427978515625
+        ]
+      ]
+    },
+    {
+      "title": "2. Related Work",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          308.390625,
+          242.47265625
+        ],
+        [
+          391.97454833984375,
+          242.47265625
+        ],
+        [
+          391.97454833984375,
+          254.8453369140625
+        ],
+        [
+          308.390625,
+          254.8453369140625
+        ]
+      ]
+    },
+    {
+      "title": "2.1. Camera-based 3D Object Detection",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          308.390625,
+          263.49481201171875
+        ],
+        [
+          493.90301513671875,
+          262.58203125
+        ],
+        [
+          493.90301513671875,
+          274.4537353515625
+        ],
+        [
+          307.1953125,
+          274.4537353515625
+        ]
+      ]
+    },
+    {
+      "title": "2.2. Radar-camera 3D Object Detection",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          48.0,
+          456.75
+        ],
+        [
+          235.5,
+          455.94140625
+        ],
+        [
+          235.5,
+          466.5
+        ],
+        [
+          48.0,
+          466.5
+        ]
+      ]
+    },
+    {
+      "title": "3. Method",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          307.5,
+          611.25
+        ],
+        [
+          361.5,
+          611.25
+        ],
+        [
+          361.5,
+          621.0
+        ],
+        [
+          307.5,
+          621.0
+        ]
+      ]
+    },
+    {
+      "title": "3.1. RadarBEVNet",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          48.0,
+          312.75
+        ],
+        [
+          138.75,
+          311.6953125
+        ],
+        [
+          138.75,
+          321.75
+        ],
+        [
+          48.0,
+          321.75
+        ]
+      ]
+    },
+    {
+      "title": "3.2. Cross-Attention Multi-layer Fusion Module",
+      "heading_level": null,
+      "page_id": 4,
+      "polygon": [
+        [
+          307.494140625,
+          603.0
+        ],
+        [
+          532.5,
+          602.5078125
+        ],
+        [
+          532.5,
+          612.0
+        ],
+        [
+          307.494140625,
+          613.3359375
+        ]
+      ]
+    },
+    {
+      "title": "Multi-modal Feature Alignment with Cross-Attention.",
+      "heading_level": null,
+      "page_id": 4,
+      "polygon": [
+        [
+          307.5,
+          618.75
+        ],
+        [
+          545.25,
+          618.75
+        ],
+        [
+          545.25,
+          628.03125
+        ],
+        [
+          307.5,
+          629.578125
+        ]
+      ]
+    },
+    {
+      "title": "4. Experiments",
+      "heading_level": null,
+      "page_id": 5,
+      "polygon": [
+        [
+          307.494140625,
+          291.5859375
+        ],
+        [
+          386.25,
+          290.0390625
+        ],
+        [
+          386.25,
+          302.25
+        ],
+        [
+          306.298828125,
+          302.4140625
+        ]
+      ]
+    },
+    {
+      "title": "4.1. Implementation Details.",
+      "heading_level": null,
+      "page_id": 5,
+      "polygon": [
+        [
+          307.5,
+          310.53515625
+        ],
+        [
+          441.0,
+          308.98828125
+        ],
+        [
+          441.0,
+          320.25
+        ],
+        [
+          306.59765625,
+          320.58984375
+        ]
+      ]
+    },
+    {
+      "title": "4.2. Main Results",
+      "heading_level": null,
+      "page_id": 5,
+      "polygon": [
+        [
+          306.896484375,
+          611.7890625
+        ],
+        [
+          390.0,
+          611.7890625
+        ],
+        [
+          390.0,
+          621.0703125
+        ],
+        [
+          306.896484375,
+          621.0703125
+        ]
+      ]
+    },
+    {
+      "title": "4.3. Ablation Studies",
+      "heading_level": null,
+      "page_id": 6,
+      "polygon": [
+        [
+          308.091796875,
+          515.49609375
+        ],
+        [
+          405.6838684082031,
+          515.49609375
+        ],
+        [
+          405.6838684082031,
+          527.0846862792969
+        ],
+        [
+          308.091796875,
+          527.0846862792969
+        ]
+      ]
+    },
+    {
+      "title": "4.4. Analysis of Robustness",
+      "heading_level": null,
+      "page_id": 7,
+      "polygon": [
+        [
+          306.896484375,
+          328.32421875
+        ],
+        [
+          435.75,
+          326.77734375
+        ],
+        [
+          435.75,
+          338.25
+        ],
+        [
+          305.701171875,
+          338.37890625
+        ]
+      ]
+    },
+    {
+      "title": "5. Conclusion",
+      "heading_level": null,
+      "page_id": 7,
+      "polygon": [
+        [
+          307.5,
+          510.0
+        ],
+        [
+          378.75,
+          510.08203125
+        ],
+        [
+          378.75,
+          521.25
+        ],
+        [
+          306.75,
+          519.75
+        ]
+      ]
+    },
+    {
+      "title": "References",
+      "heading_level": null,
+      "page_id": 8,
+      "polygon": [
+        [
+          49.306640625,
+          72.787109375
+        ],
+        [
+          105.65585327148438,
+          71.54296875
+        ],
+        [
+          105.65585327148438,
+          84.7423095703125
+        ],
+        [
+          49.306640625,
+          84.7423095703125
+        ]
+      ]
+    }
+  ],
+  "page_stats": [
+    {
+      "page_id": 0,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          214
+        ],
+        [
+          "Line",
+          83
+        ],
+        [
+          "Text",
+          5
+        ],
+        [
+          "SectionHeader",
+          3
+        ],
+        [
+          "Figure",
+          2
+        ],
+        [
+          "PageHeader",
+          1
+        ],
+        [
+          "Picture",
+          1
+        ],
+        [
+          "Caption",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "FigureGroup",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 1,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          235
+        ],
+        [
+          "Line",
+          105
+        ],
+        [
+          "Text",
+          7
+        ],
+        [
+          "ListItem",
+          5
+        ],
+        [
+          "SectionHeader",
+          2
+        ],
+        [
+          "ListGroup",
+          2
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 2,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          95
+        ],
+        [
+          "Span",
+          16
+        ],
+        [
+          "Text",
+          7
+        ],
+        [
+          "SectionHeader",
+          2
+        ],
+        [
+          "Figure",
+          1
+        ],
+        [
+          "Caption",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "FigureGroup",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 3,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          117
+        ],
+        [
+          "Span",
+          53
+        ],
+        [
+          "Text",
+          8
+        ],
+        [
+          "Equation",
+          4
+        ],
+        [
+          "Caption",
+          2
+        ],
+        [
+          "Figure",
+          1
+        ],
+        [
+          "SectionHeader",
+          1
+        ],
+        [
+          "Picture",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "FigureGroup",
+          1
+        ],
+        [
+          "PictureGroup",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 4,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          97
+        ],
+        [
+          "Span",
+          81
+        ],
+        [
+          "Text",
+          9
+        ],
+        [
+          "Equation",
+          4
+        ],
+        [
+          "Picture",
+          2
+        ],
+        [
+          "Caption",
+          2
+        ],
+        [
+          "SectionHeader",
+          2
+        ],
+        [
+          "PictureGroup",
+          2
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 5,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "TableCell",
+          168
+        ],
+        [
+          "Line",
+          85
+        ],
+        [
+          "Span",
+          71
+        ],
+        [
+          "Text",
+          9
+        ],
+        [
+          "Equation",
+          3
+        ],
+        [
+          "SectionHeader",
+          3
+        ],
+        [
+          "Table",
+          1
+        ],
+        [
+          "Caption",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "TableGroup",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 6,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          480
+        ],
+        [
+          "TableCell",
+          246
+        ],
+        [
+          "Line",
+          78
+        ],
+        [
+          "Text",
+          6
+        ],
+        [
+          "Table",
+          4
+        ],
+        [
+          "Caption",
+          2
+        ],
+        [
+          "TableGroup",
+          2
+        ],
+        [
+          "SectionHeader",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 7,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          94
+        ],
+        [
+          "TableCell",
+          85
+        ],
+        [
+          "Span",
+          41
+        ],
+        [
+          "Text",
+          8
+        ],
+        [
+          "Caption",
+          3
+        ],
+        [
+          "Table",
+          3
+        ],
+        [
+          "SectionHeader",
+          2
+        ],
+        [
+          "TableGroup",
+          2
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 8,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          458
+        ],
+        [
+          "Line",
+          113
+        ],
+        [
+          "ListItem",
+          32
+        ],
+        [
+          "ListGroup",
+          2
+        ],
+        [
+          "SectionHeader",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 9,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          327
+        ],
+        [
+          "Line",
+          84
+        ],
+        [
+          "ListItem",
+          23
+        ],
+        [
+          "ListGroup",
+          2
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    }
+  ],
+  "debug_data_path": "debug_data\\Lin \u7b49 - 2024 - RCBEVDet Radar-camera Fusion in Bird's Eye View for 3D Object Detection"
+}

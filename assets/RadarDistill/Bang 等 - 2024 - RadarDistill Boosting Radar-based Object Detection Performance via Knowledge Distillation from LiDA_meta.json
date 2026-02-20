@@ -1,0 +1,892 @@
+{
+  "table_of_contents": [
+    {
+      "title": "RadarDistill: Boosting Radar-based Object Detection Performance via\nKnowledge Distillation from LiDAR Features",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          81.81200408935547,
+          105.9219970703125
+        ],
+        [
+          513.4175415039062,
+          105.9219970703125
+        ],
+        [
+          513.4175415039062,
+          138.201171875
+        ],
+        [
+          81.81200408935547,
+          138.201171875
+        ]
+      ]
+    },
+    {
+      "title": "Abstract",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          142.83984375,
+          237.83203125
+        ],
+        [
+          190.479248046875,
+          237.83203125
+        ],
+        [
+          190.479248046875,
+          250.42236328125
+        ],
+        [
+          142.83984375,
+          250.42236328125
+        ]
+      ]
+    },
+    {
+      "title": "1. Introduction",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          49.60546875,
+          572.5078735351562
+        ],
+        [
+          126.94804382324219,
+          571.5703125
+        ],
+        [
+          126.94804382324219,
+          584.4630737304688
+        ],
+        [
+          49.60546875,
+          584.4630737304688
+        ]
+      ]
+    },
+    {
+      "title": "2. Related Works",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          49.904296875,
+          361.1100769042969
+        ],
+        [
+          137.87515258789062,
+          360.03515625
+        ],
+        [
+          137.87515258789062,
+          373.0652770996094
+        ],
+        [
+          48.708984375,
+          373.0652770996094
+        ]
+      ]
+    },
+    {
+      "title": "2.1. Radar-based 3D Object Detection",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          49.904296875,
+          381.29974365234375
+        ],
+        [
+          226.84619140625,
+          380.91796875
+        ],
+        [
+          226.84619140625,
+          392.2586364746094
+        ],
+        [
+          49.904296875,
+          392.51953125
+        ]
+      ]
+    },
+    {
+      "title": "2.2. Knowledge Distillation",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          48.708984375,
+          648.2936248779297
+        ],
+        [
+          176.04075622558594,
+          648.2936248779297
+        ],
+        [
+          176.04075622558594,
+          659.2525177001953
+        ],
+        [
+          48.708984375,
+          659.2525177001953
+        ]
+      ]
+    },
+    {
+      "title": "3. Method",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          48.0,
+          108.66796875
+        ],
+        [
+          102.0,
+          108.66796875
+        ],
+        [
+          102.0,
+          118.5
+        ],
+        [
+          48.0,
+          118.5
+        ]
+      ]
+    },
+    {
+      "title": "3.1. Preliminary",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          48.0,
+          254.84765625
+        ],
+        [
+          125.25,
+          254.84765625
+        ],
+        [
+          125.25,
+          264.90234375
+        ],
+        [
+          48.0,
+          264.90234375
+        ]
+      ]
+    },
+    {
+      "title": "3.2. Cross-Modality Alignment",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          48.0,
+          672.75
+        ],
+        [
+          195.75,
+          672.1171875
+        ],
+        [
+          195.75,
+          681.75
+        ],
+        [
+          48.0,
+          682.9453125
+        ]
+      ]
+    },
+    {
+      "title": "3.3. Activation-based Feature Distillation",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          306.896484375,
+          670.95703125
+        ],
+        [
+          500.25,
+          670.95703125
+        ],
+        [
+          500.25,
+          681.0
+        ],
+        [
+          306.896484375,
+          681.0
+        ]
+      ]
+    },
+    {
+      "title": "3.4. Proposal-based Feature Distillation",
+      "heading_level": null,
+      "page_id": 4,
+      "polygon": [
+        [
+          306.896484375,
+          232.41796875
+        ],
+        [
+          493.5,
+          230.87109375
+        ],
+        [
+          493.5,
+          241.5
+        ],
+        [
+          305.701171875,
+          242.47265625
+        ]
+      ]
+    },
+    {
+      "title": "3.5. Loss Function",
+      "heading_level": null,
+      "page_id": 5,
+      "polygon": [
+        [
+          48.0,
+          618.0
+        ],
+        [
+          135.75,
+          618.0
+        ],
+        [
+          135.75,
+          627.0
+        ],
+        [
+          48.0,
+          627.0
+        ]
+      ]
+    },
+    {
+      "title": "4. Experiments",
+      "heading_level": null,
+      "page_id": 5,
+      "polygon": [
+        [
+          307.494140625,
+          72.703125
+        ],
+        [
+          386.25,
+          71.15625
+        ],
+        [
+          386.25,
+          82.5
+        ],
+        [
+          307.494140625,
+          83.53125
+        ]
+      ]
+    },
+    {
+      "title": "4.1. Experimental Setup",
+      "heading_level": null,
+      "page_id": 5,
+      "polygon": [
+        [
+          306.298828125,
+          92.25
+        ],
+        [
+          422.25,
+          91.65234375
+        ],
+        [
+          422.25,
+          102.0
+        ],
+        [
+          305.103515625,
+          103.25390625
+        ]
+      ]
+    },
+    {
+      "title": "4.2. Performance Comparison",
+      "heading_level": null,
+      "page_id": 5,
+      "polygon": [
+        [
+          307.1953125,
+          576.75
+        ],
+        [
+          449.25,
+          576.59765625
+        ],
+        [
+          449.25,
+          585.75
+        ],
+        [
+          307.1953125,
+          586.65234375
+        ]
+      ]
+    },
+    {
+      "title": "4.3. Ablation Studies",
+      "heading_level": null,
+      "page_id": 6,
+      "polygon": [
+        [
+          49.904296875,
+          440.859375
+        ],
+        [
+          146.93385314941406,
+          440.859375
+        ],
+        [
+          146.93385314941406,
+          453.4566345214844
+        ],
+        [
+          48.708984375,
+          453.4566345214844
+        ]
+      ]
+    },
+    {
+      "title": "5. Conclusions",
+      "heading_level": null,
+      "page_id": 7,
+      "polygon": [
+        [
+          48.708984375,
+          657.421875
+        ],
+        [
+          124.5,
+          657.421875
+        ],
+        [
+          124.5,
+          667.5
+        ],
+        [
+          48.708984375,
+          667.5
+        ]
+      ]
+    },
+    {
+      "title": "6. Acknowledgement",
+      "heading_level": null,
+      "page_id": 7,
+      "polygon": [
+        [
+          307.1953125,
+          612.0
+        ],
+        [
+          415.5,
+          610.62890625
+        ],
+        [
+          415.5,
+          621.0
+        ],
+        [
+          307.1953125,
+          622.23046875
+        ]
+      ]
+    },
+    {
+      "title": "References",
+      "heading_level": null,
+      "page_id": 8,
+      "polygon": [
+        [
+          49.306640625,
+          72.787109375
+        ],
+        [
+          105.65585327148438,
+          71.54296875
+        ],
+        [
+          105.65585327148438,
+          84.7423095703125
+        ],
+        [
+          49.306640625,
+          84.7423095703125
+        ]
+      ]
+    }
+  ],
+  "page_stats": [
+    {
+      "page_id": 0,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          158
+        ],
+        [
+          "Line",
+          67
+        ],
+        [
+          "Text",
+          7
+        ],
+        [
+          "SectionHeader",
+          3
+        ],
+        [
+          "Footnote",
+          2
+        ],
+        [
+          "PageHeader",
+          1
+        ],
+        [
+          "Picture",
+          1
+        ],
+        [
+          "Figure",
+          1
+        ],
+        [
+          "Caption",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "FigureGroup",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 1,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          215
+        ],
+        [
+          "Line",
+          102
+        ],
+        [
+          "Text",
+          10
+        ],
+        [
+          "ListItem",
+          4
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "ListGroup",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 2,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          136
+        ],
+        [
+          "Line",
+          62
+        ],
+        [
+          "Text",
+          5
+        ],
+        [
+          "SectionHeader",
+          3
+        ],
+        [
+          "Figure",
+          1
+        ],
+        [
+          "Caption",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "FigureGroup",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 3,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          102
+        ],
+        [
+          "Span",
+          82
+        ],
+        [
+          "Text",
+          10
+        ],
+        [
+          "SectionHeader",
+          4
+        ],
+        [
+          "Equation",
+          3
+        ],
+        [
+          "Figure",
+          1
+        ],
+        [
+          "Caption",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "FigureGroup",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 4,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Span",
+          155
+        ],
+        [
+          "Line",
+          79
+        ],
+        [
+          "Text",
+          12
+        ],
+        [
+          "Equation",
+          10
+        ],
+        [
+          "SectionHeader",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 5,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          104
+        ],
+        [
+          "Span",
+          94
+        ],
+        [
+          "Text",
+          11
+        ],
+        [
+          "Equation",
+          5
+        ],
+        [
+          "SectionHeader",
+          4
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 6,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          307
+        ],
+        [
+          "TableCell",
+          141
+        ],
+        [
+          "Line",
+          74
+        ],
+        [
+          "Text",
+          8
+        ],
+        [
+          "ListItem",
+          5
+        ],
+        [
+          "Table",
+          2
+        ],
+        [
+          "Caption",
+          2
+        ],
+        [
+          "TableGroup",
+          2
+        ],
+        [
+          "ListGroup",
+          2
+        ],
+        [
+          "SectionHeader",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 7,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "TableCell",
+          97
+        ],
+        [
+          "Line",
+          79
+        ],
+        [
+          "Span",
+          39
+        ],
+        [
+          "Table",
+          5
+        ],
+        [
+          "Caption",
+          5
+        ],
+        [
+          "Text",
+          5
+        ],
+        [
+          "TableGroup",
+          5
+        ],
+        [
+          "SectionHeader",
+          2
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 8,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          414
+        ],
+        [
+          "Line",
+          114
+        ],
+        [
+          "ListItem",
+          25
+        ],
+        [
+          "ListGroup",
+          2
+        ],
+        [
+          "SectionHeader",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 9,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          342
+        ],
+        [
+          "Line",
+          96
+        ],
+        [
+          "ListItem",
+          20
+        ],
+        [
+          "ListGroup",
+          2
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    }
+  ],
+  "debug_data_path": "debug_data\\Bang \u7b49 - 2024 - RadarDistill Boosting Radar-based Object Detection Performance via Knowledge Distillation from LiDA"
+}
