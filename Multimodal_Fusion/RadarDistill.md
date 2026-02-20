@@ -1,8 +1,14 @@
 # RadarDistill
 
+**出处会议：** CVPR 2024  
+**是否开源：** 是，https://github.com/KAIST-AVLab/RadarDistill  
+**关键词：** 知识蒸馏、雷达3D检测、跨模态对齐、LiDAR-Radar
+
+---
+
 ​	目标：**利用 LiDAR（激光雷达）来教导 Radar（毫米波雷达），从而大幅提升 Radar 单独进行 3D 目标检测的性能。**
 
-![](../../assets/RadarDistill/_page_2_Figure_0.jpeg)
+<div align="center"><img src="../assets/RadarDistill/_page_2_Figure_0.jpeg"></div>
 
 ---
 
@@ -20,7 +26,7 @@ $$
 
 ​	CMA 的结构看起来像一个“梯子”或者“U型结构”。
 
-![](../../assets/RadarDistill/_page_3_Figure_13.jpeg)
+<div align="center"><img src="../assets/RadarDistill/_page_3_Figure_13.jpeg"></div>
 
 它主要干了三件事：**下采样、上采样、融合**。
 

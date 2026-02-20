@@ -1,8 +1,8 @@
 # OmniQuant
 
-**论文标题：** OmniQuant: Omnidirectionally Calibrated Quantization for Large Language Models  
-**发表机构：** OpenGVLab (上海 AI Lab), 香港大学, 香港中文大学  
-**关键词：** LLM 量化, PTQ (训练后量化), 可学习参数, LWC, LET
+**出处会议：** ICLR 2024  
+**是否开源：** 是，https://github.com/OpenGVLab/OmniQuant  
+**关键词：** LLM量化、训练后量化(PTQ)、可学习量化参数、LWC、LET
 
 ---
 

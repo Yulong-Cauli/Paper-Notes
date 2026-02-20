@@ -1,5 +1,11 @@
 # CenterNet：Objects as Points
 
+**出处会议：** arXiv 2019  
+**是否开源：** 是，https://github.com/xingyizhou/CenterNet  
+**关键词：** 中心点检测、热力图、无锚框、无NMS
+
+---
+
 ## 方法
 
 CenterNet 将 CornerNet 中复杂的**关键点配对**步骤简化为直接的**属性回归**。
@@ -86,7 +92,7 @@ L_{off} = \frac{1}{N} \sum_{p} |\hat{O}_{\tilde{p}} - (\frac{p}{R} - \tilde{p})|
 $$
 
 <div align="center">
-    <img src="../../assets/CenterNet/Figure_OffsetLoss_2.png" width="20%">
+    <img src="../assets/CenterNet/Figure_OffsetLoss_2.png" width="20%">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9; display: inline-block; color: #999; padding: 2px;">
       注意：这里和CornerNet的Offset Loss有一点区别

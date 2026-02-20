@@ -1,5 +1,11 @@
 # QD-BEV: 多视角 3D 目标检测的量化感知视点引导蒸馏
 
+**出处会议：** ICCV 2023  
+**是否开源：** 没有  
+**关键词：** 量化感知训练、知识蒸馏、BEV感知、渐进式量化
+
+---
+
 ## 1. 概述
 
 **QD-BEV** 旨在解决多视角 3D 检测模型（如 BEVFormer）在量化过程中面临的两个核心痛点：**训练不稳定（梯度爆炸/不收敛）和 性能剧烈下降**。
@@ -17,7 +23,7 @@
 - **Teacher** 是冻结的预训练 FP32 全精度模型、**Student** 是待训练的低比特量化模型。
 - **核心逻辑**：多视角图像输入后，分别经过主干网络提取图像特征 。随后进入 Transformer 模块生成 BEV 特征 。系统在“图像特征”和“BEV 特征”两个维度上分别计算蒸馏损失。
 
-![](../../assets/QD-BEV/Figure2_A.png)
+<div align="center"><img src="../assets/QD-BEV/Figure2_A.png"></div>
 
 ### 2、量化感知训练 (QAT)
 
@@ -39,7 +45,7 @@ $$
 $$
 Backbone \rightarrow Neck\rightarrow Encoder \rightarrow Decoder
 $$
-![](../../assets/QD-BEV/Figure3.png)
+<div align="center"><img src="../assets/QD-BEV/Figure3.png"></div>
 
 **量化流程：**在当前循环中，仅对该模块执行量化操作（将权重/激活压入低比特），而尚未轮到的模块保持高精度。 
 
@@ -82,7 +88,7 @@ $$
   1. **空间门控**：只有当 BEV 空间某点落入特定相机视野时，$M_{bev}$ 才有效，这保证了“正确的图像特征指导正确的 BEV 空间”。
   2. **跨域门控**：$\hat{\mathcal{L}}_{img}$ 与 $\mathcal{L}_{bev}$ 逐元素相乘，意味着只有当两个域的预测都出现偏差时，产生的梯度才最强，强制模型聚焦于最难学习的特征。
 
-![](../../assets/QD-BEV/Figure2_B.png)
+<div align="center"><img src="../assets/QD-BEV/Figure2_B.png"></div>
 
 ------
 

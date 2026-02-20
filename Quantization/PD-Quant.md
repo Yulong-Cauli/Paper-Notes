@@ -1,4 +1,10 @@
-# PD-Quant: 基于预测差异度量的后训练量化 (CVPR 2023)
+# PD-Quant: 基于预测差异度量的后训练量化
+
+**出处会议：** CVPR 2023  
+**是否开源：** 是，https://github.com/youcannotseemeagain/PD-Quant  
+**关键词：** 训练后量化(PTQ)、预测差异度量、分布修正、全局感知
+
+---
 
 ## 1. 概述
 
