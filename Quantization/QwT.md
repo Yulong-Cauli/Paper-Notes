@@ -27,12 +27,14 @@ QwT 的精髓在于将复杂的量化误差修复问题转化为一个简单的*
 $$
 y^{QwT} = l^{\mathbb{Z}}(x^{\mathbb{Z}}) + (Wx^{\mathbb{Z}} + b)
 $$
+
 目标是最小化残差的平方和：
 
 $$
 \min_{W, b} || y -  y^{QwT}||^2 \\ = 
 \min_{W, b} || y - (y^{\mathbb{Z}} + Wx^{\mathbb{Z}} + b) ||^2
 $$
+
 为了简化计算，将偏置 $b$ 合并到权重矩阵 $W$ 中。
 
 ### 闭式解公式
@@ -40,29 +42,40 @@ $$
 设已吸收偏置后的增强输入矩阵为 $X^{\mathbb{Z}} \in \mathbb{R}^{(d_{in}+1) \times N}$，待求解的残差矩阵为 $E = Y - Y^{\mathbb{Z}} \in \mathbb{R}^{d_{out} \times N}$ 。
 
 我们希望找到权重矩阵 $W$，最小化均方误差。其代价函数 $L(W)$ 可以表示为 Frobenius 范数的平方：
+
 $$
 L(W) = \|E - W X^{\mathbb{Z}} \|_F^2 = \text{tr} \left( (E - W X^{\mathbb{Z}}) (E - W X^{\mathbb{Z}})^\top \right)
 $$
+
 展开迹函数项：
+
 $$
 L(W) = \text{tr}(EE^\top) - \text{tr}(EX^{\mathbb{Z}\top}W^\top) - \text{tr}(W X^{\mathbb{Z}} E^\top) + \text{tr}(W X^{\mathbb{Z}} X^{\mathbb{Z}\top} W^\top)
 $$
+
 利用矩阵迹的性质（$\text{tr}(A) = \text{tr}(A^\top)$ 和 $\frac{\partial \text{tr}(AXB)}{\partial X} = A^\top B^\top$），我们对 $W$ 求偏导：
+
 $$
 \frac{\partial L}{\partial W} = -2 E X^{\mathbb{Z}\top} + 2 W X^{\mathbb{Z}} X^{\mathbb{Z}\top}
 $$
+
 令偏导数为 $0$，得到线性回归的最优性条件：
+
 $$
 W X^{\mathbb{Z}} X^{\mathbb{Z}\top} = E X^{\mathbb{Z}\top}
 $$
 由于我们需要求 $W$，且 $X^{\mathbb{Z}} X^{\mathbb{Z}\top}$ 是一个 $(d_{in}+1) \times (d_{in}+1)$ 的半正定矩阵（在采样数 $N$ 足够大时通常是满秩且可逆的），我们直接右乘其逆矩阵：
+
 $$
 W^* = E X^{\mathbb{Z}\top} (X^{\mathbb{Z}} X^{\mathbb{Z}\top})^{-1}
 $$
+
 将 $E = Y - Y^{\mathbb{Z}}$ 代入，即得到论文中的闭式解公式 ：
+
 $$
 W^* = (Y - Y^{\mathbb{Z}}) X^{\mathbb{Z}\top} (X^{\mathbb{Z}} X^{\mathbb{Z}\top})^{-1}
 $$
+
 计算的主要开销在于矩阵乘法 $O(d_{in}^2 N)$ 和求逆 $O(d_{in}^3)$ 。
 
 $d_{in}$ 通常在 1024 左右，采样点 $N$ 为 512 张图像转换后的 token 数（量级约 $10^5$），这个量级的矩阵运算在单张 GPU 上确实可以在 2 分钟内完成 
