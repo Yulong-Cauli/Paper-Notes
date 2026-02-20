@@ -51,6 +51,7 @@ CenterNet 将 CornerNet 中复杂的**关键点配对**步骤简化为直接的*
 - 在中心点附近，根据物体尺寸计算半径，生成 **2D 高斯圆** ($e^{-\frac{x^2+y^2}{2\sigma^2}}$)，以此作为软标签，减少对正样本附近负样本的惩罚。
 
 **损失函数 ($L_{k}$)**：修改版的 Focal Loss，用于处理正负样本极度不平衡问题。
+
 $$
 L_{k} = \frac{-1}{N} \sum_{xyc} \begin{cases} (1 - \hat{Y}_{xyc})^\alpha \log(\hat{Y}_{xyc}) & \text{if } Y_{xyc} = 1 \\ (1 - Y_{xyc})^\beta (\hat{Y}_{xyc})^\alpha \log(1 - \hat{Y}_{xyc}) & \text{otherwise} \end{cases}
 $$
@@ -67,6 +68,7 @@ $$
 **实现**：直接回归原始像素坐标下的物体尺寸 $s_k = (x_2^{(k)} - x_1^{(k)}, y_2^{(k)} - y_1^{(k)})$。为了减少计算负担，所有类别共享这个 Size Head。
 
 **损失函数 ($L_{size}$)**：L1 Loss，仅在中心点位置计算。
+
 $$
 L_{size} = \frac{1}{N} \sum_{k=1}^{N} |\hat{S}_{p_k} - s_k|
 $$
@@ -80,6 +82,7 @@ $$
 中心点坐标映射回原图时，公式为 $p = \lfloor \frac{p_{raw}}{R} \rfloor$。这会丢失精度，导致小物体检测 IoU 下降。
 
 **计算公式**：预测下采样坐标与浮点坐标的差值。
+
 $$
 O_{\tilde{p}} = \frac{p}{R} - \tilde{p}
 $$
@@ -119,6 +122,7 @@ $$
 $$
 L_{det} = L_{k} + \lambda_{size} L_{size} + \lambda_{off} L_{off}
 $$
+
 **权重设置**：
 
 - $\lambda_{size} = 0.1$

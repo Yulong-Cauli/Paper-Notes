@@ -20,6 +20,7 @@ OmniQuant 的优化框架是 **Block-wise Error Minimization (分块误差最小
 它不是一次性优化整个网络，而是一个 Transformer Block 接一个 Block 地优化。
 
 **优化目标公式：**
+
 $$
 \arg\min_{\Theta_1, \Theta_2} || Y_{FP} - Y_Q(\Theta_1, \Theta_2) ||^2
 $$
@@ -41,22 +42,27 @@ $$
 LWC 引入两个可学习的比例因子：$\gamma$ (控制上界) 和 $\beta$ (控制下界)。
 
 1.  **确定裁剪边界 (Clipping Bounds)：**
+
     $$
      Upper = \gamma \cdot \max(W), \quad Lower = \beta \cdot \min(W) 
     $$
+
     *注：$\gamma, \beta$ 通过 Sigmoid 函数限制在 $(0, 1)$ 之间，即只缩小范围，不扩大。*
     
 2.  **计算量化步长 (Step Size $h$)：**
+
     $$
     h = \frac{Upper - Lower}{2^N - 1}
     $$
     
 3.  **计算零点 (Zero Point $z$)：**
+
     $$
     z = - \text{Round}(\frac{Lower}{h})
     $$
     
 4.  **执行量化 (Quantization)：**
+
     $$
      W_q = \text{Clamp}\left( \text{Round}\left(\frac{W}{h}\right) + z, \ 0, \ 2^N - 1 \right) 
     $$
@@ -98,7 +104,11 @@ $$
 ### 3.1 激活离群值与权重的关系 ("质量守恒")
 *   **现象**：激活值 $X$ 中存在巨大的离群值（如 100），导致量化范围被撑大，小数值（0.1）精度丢失。
 *   **操作**：LET 将激活值除以 $s$（如 $s=100$），同时将权重乘以 $s$。
-    $$ Y = (X \div 100) \times (W \times 100) $$
+
+    $$
+    Y = (X \div 100) \times (W \times 100)
+    $$
+
 *   **结果**：
     *   **激活值**：100 变成 1，离群值消失，变得**极其容易量化**。
     *   **权重**：原本的范围扩大了 100 倍，变得**更难量化**。
@@ -120,12 +130,14 @@ LET 在训练时引入了除法、减法、乘法，但在推理时这些操作*
 **2. 激活的融合 (Activation Fusion) —— 重点**
 激活变换公式为 $\tilde{X} = (X - \delta) / s$。
 输入 $X$ 通常来自上一层的 LayerNorm：
+
 $$
  X = \text{LayerNorm}(Input) = \frac{Input - \mu}{\sigma} \cdot \gamma_{LN} + \beta_{LN} 
 $$
 
 
 将 LayerNorm 代入变换公式：
+
 $$
  \tilde{X} = \frac{(\frac{Input - \mu}{\sigma} \cdot \gamma_{LN} + \beta_{LN}) - \delta}{s} 
 $$

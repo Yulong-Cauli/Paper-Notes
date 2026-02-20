@@ -11,6 +11,7 @@
 解决单目 3D 检测中深度信息缺失和特征模糊的问题。
 
 通过预测像素级的**分类深度分布（Categorical Depth Distribution）**，将 2D 图像特征精准地投影到 3D 视锥空间，并进行**端到端（End-to-End）**的联合训练。
+
 $$
 \text{Image} \rightarrow \text{Frustum Feature Net} \rightarrow \text{Frustum-to-Voxel} \rightarrow \text{Voxel Collapse} \rightarrow \text{BEV Detection}
 $$
@@ -46,6 +47,7 @@ $$
      - **核心理念**：不回归单一深度值，而是预测分布以保留**不确定性（Uncertainty）**。
 
 - **特征融合（外积）**：
+
   $$
   G(u,v) = D(u,v) \otimes F(u,v)
   $$
@@ -66,11 +68,13 @@ $$
   对于体素网格 $V$ 中的每一个中心点 $s^v_k = (x, y, z)$：
 
   1. **计算平面坐标**：利用相机投影矩阵 $P$（$3\times4$ 或扩充为 $4\times4$），将 3D 点投影回 2D 图像：
+
      $$
      [u, v, 1]^T \sim P \times [x, y, z, 1]^T
      $$
 
   2. **计算深度索引**：利用 **LID (Linear-Increasing Discretization)** 公式，将连续深度 $z$ 转换为离散索引 $d_{index}$：
+
      $$
      d_c = d_{min} + \frac{d_{max}-d_{min}}{D(D+1)} \cdot d_i(d_i+1)
      $$
@@ -99,7 +103,9 @@ $$
   
   - 计算：根据距离加权。它离 $B$ 更近（占 0.6），离 $A$ 稍远（占 0.4）。
   
-    $$Value = A \cdot (1 - 0.6) + B \cdot 0.6 = 10 \cdot 0.4 + 20 \cdot 0.6 = 16$$
+    $$
+    Value = A \cdot (1 - 0.6) + B \cdot 0.6 = 10 \cdot 0.4 + 20 \cdot 0.6 = 16
+    $$
 
 ------
 
@@ -132,11 +138,13 @@ $$
 将 3D 体素“拍扁”成 2D 的鸟瞰图特征，同时保留高度信息。
 
 - **堆叠 (Concatenation)**：将高度轴 $Z$ 的数据拼接到通道轴 $C$ 上。
+
   $$
   V(X, Y, Z, C) \rightarrow \tilde{B}(X, Y, Z \cdot C)
   $$
   
 - **压缩 (Channel Reduction)**：使用 $1\times1$ 卷积将通道数降回 $C$。
+
   $$
   \tilde{B}(X, Y, Z \cdot C) \xrightarrow{1\times1 \text{ Conv}} B(X, Y, C)
   $$
@@ -157,6 +165,7 @@ $$
 ## 3. Loss Function
 
 CaDDN 采用多任务联合损失进行端到端训练：
+
 $$
 L = \lambda_{depth}L_{depth} + \lambda_{cls}L_{cls} + \lambda_{reg}L_{reg} + \lambda_{dir}L_{dir}
 $$

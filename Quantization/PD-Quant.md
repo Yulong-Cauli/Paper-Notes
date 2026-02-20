@@ -23,6 +23,7 @@ PD-Quant 提出从“局部特征相似”转向“全局预测一致”，通�
 **优化目标：**
 
 在量化当前块之前，保持权重固定，通过梯度下降优化该块的输入特征图 $A_{l-1}$：
+
 $$
 \min_{A_{l-1}^{DC}} \lambda_c \underbrace{\sum (||\hat{\mu}_{i,l} - \mu_{i,l}||_2^2 + ||\hat{\sigma}_{i,l} - \sigma_{i,l}||_2^2)}_{\text{第一项：分布对齐}} + \underbrace{||A_{l-1}^{DC} - A_{l-1}^{FP}||_2^2}_{\text{第二项：语义保持}}
 $$
@@ -45,9 +46,11 @@ $$
 3. 计算最终输出与原始全精度模型输出的 KL 散度。
 
 **公式：**
+
 $$
 \mathcal{L}_{PD} = \sum KL(\text{Softmax}(O_{fp}) || \text{Softmax}(O_{pd}))
 $$
+
 这种方式不仅考虑了当前层的重建，还模拟了量化噪声对最终任务决策的影响。
 
 ### 2.3 带正则化的总损失函数
@@ -55,6 +58,7 @@ $$
 为了防止在极小校准集上产生过拟合，PD-Quant 引入了 MSE 正则化项，并结合权重舍入优化。
 
 **总优化目标：**
+
 $$
 \arg \min_{\theta, S_a} \mathcal{L}_{PD}(O_{fp}, f_{l+1}(\overline{A}_l)) + \lambda_r ||A_l - \overline{A}_l||_2^2
 $$

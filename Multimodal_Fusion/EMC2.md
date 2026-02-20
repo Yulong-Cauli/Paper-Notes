@@ -61,17 +61,20 @@ SAD 是决策核心，根据 AMDB 提供的目标距离 $D$ 和置信度 $C$ 决
 ### 3.1 层次化训练 (Hierarchical Training)
 
 **各路由损失函数：**
+
 $$
 \mathcal{L}_{route} = \mathcal{L}_{cls} + \mathcal{L}_{reg}
 $$
 
 
 **分类损失 ($\mathcal{L}_{cls}$)：** 采用交叉熵
+
 $$
 \mathcal{L}_{cls} = - \sum y \log(p)
 $$
 
 **回归损失 ($\mathcal{L}_{reg}$)：** 采用 Smooth-L1 监督 7 个自由度（$x, y, z, w, l, h, \theta$）
+
 $$
 \text{Smooth-L1}(x) = \begin{cases} 0.5x^2, & \text{if } |x| < 1 \\ |x| - 0.5, & \text{otherwise} \end{cases}
 $$
@@ -92,6 +95,7 @@ $$
 - **平衡采样策略**：
 
   确保各专家子数据集的选择概率 $\mathcal{P}_i$ 与样本量 $\mathcal{N}_{\mathcal{S}_i}$ 满足：
+
   $$
   \sum_{i=1}^{3} \mathcal{P}_i \times \mathcal{N}_{\mathcal{S}_i} = 1
   $$
@@ -99,6 +103,7 @@ $$
 - **自适应优化器 (Adaptive Optimizer)**：
 
   根据 Batch 内目标样本（对口样本）的占比 $p$ 动态调整学习率 $\alpha$：
+
   $$
   \alpha = (1 + p) \cdot \alpha_0
   $$
