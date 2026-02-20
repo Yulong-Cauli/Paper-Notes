@@ -1,5 +1,11 @@
 # FCOS 
 
+**出处会议：** ICCV 2019  
+**是否开源：** 是，https://github.com/tianzhi0549/FCOS  
+**关键词：** 无锚框检测、逐像素预测、Center-ness、FPN多尺度
+
+---
+
 **核心思想**：将目标检测从传统的“基于锚框（Anchor-based）”回归问题，重构为类似语义分割的**全卷积逐像素预测（Per-pixel Prediction）**问题。
 
 ---
@@ -11,12 +17,12 @@ $$
 $$
 
 <div align="center">
-    <img src="../../assets/FCOS/Figure2_a.png" width="90%">
+    <img src="../assets/FCOS/Figure2_a.png" width="90%">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9; display: inline-block; color: #999; padding: 2px;">
       注意：关于 Center-ness 的归属问题，后续实验证明，将其移到回归分支后，AP 进一步提升
     </div>
-    <img src="../../assets/FCOS/Figure2_Tips.png" width="70%">
+    <img src="../assets/FCOS/Figure2_Tips.png" width="70%">
 </div>
 
 

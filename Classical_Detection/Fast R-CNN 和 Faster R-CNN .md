@@ -1,5 +1,11 @@
 # Fast R-CNN 和 Faster R-CNN 
 
+**出处会议：** Fast R-CNN: ICCV 2015 / Faster R-CNN: NeurIPS 2015  
+**是否开源：** 是，https://github.com/rbgirshick/py-faster-rcnn  
+**关键词：** RoI Pooling、候选区域网络(RPN)、锚框、多任务损失
+
+---
+
 ## Fast R-CNN
 
 **核心贡献：** 解决了 R-CNN 训练步骤繁琐、测试速度慢的问题，提出了单阶段训练 Single-stage training 和 RoI Pooling。

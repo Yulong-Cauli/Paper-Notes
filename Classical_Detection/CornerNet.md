@@ -1,5 +1,11 @@
 # CornerNet
 
+**出处会议：** ECCV 2018  
+**是否开源：** 是，https://github.com/princeton-vl/CornerNet  
+**关键词：** 关键点检测、角点池化、Associative Embedding、无锚框
+
+---
+
 ## 方法
 
 CornerNet 摒弃了传统的“锚框（Anchor Box）”机制，而是将目标检测重新定义为**关键点检测与配对**的问题。
@@ -16,7 +22,7 @@ CornerNet 摒弃了传统的“锚框（Anchor Box）”机制，而是将目标
 
 **无多尺度特征**：与许多其他检测器不同，CornerNet 不使用特征金字塔（FPN）来检测不同大小的物体，而是仅使用网络最后一层的输出进行预测。
 
-![](../../assets/CornerNet/Figure2_Overview.png)
+<div align="center"><img src="../assets/CornerNet/Figure2_Overview.png"></div>
 
 ### Prediction Modules
 
@@ -27,7 +33,7 @@ CornerNet 摒弃了传统的“锚框（Anchor Box）”机制，而是将目标
 * 改进残差块：这是模块的第一部分。它将标准残差块中的第一个 $3 \times 3$ 卷积层替换为了 **Corner Pooling Module (角点池化模块)** 。
 * 后处理：经过池化和残差连接后，特征图通过卷积层融合，最终分支输出 **Heatmaps、Embeddings 和 Offsets**。
 
-![](../../assets/CornerNet/Figure7_PredictA.png)
+<div align="center"><img src="../assets/CornerNet/Figure7_PredictA.png"></div>
 
 #### Corner Pooling (角点池化)
 
@@ -37,7 +43,7 @@ CornerNet 摒弃了传统的“锚框（Anchor Box）”机制，而是将目标
 
 **实现：** 以**左上角池化 (Top-Left Corner Pooling)** 为例，包含两个路径。一个路径从右向左进行 Max-pooling，另一个路径从下向上进行 Max-pooling，最后将这两个经过处理的特征图**相加**。
 
-![](../../assets/CornerNet/Figure6_CornerPooling.png)
+<div align="center"><img src="../assets/CornerNet/Figure6_CornerPooling.png"></div>
 
 ### Heatmaps—— 预测位置
 
