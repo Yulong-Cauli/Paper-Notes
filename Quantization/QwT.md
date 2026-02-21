@@ -10,7 +10,7 @@
 
 传统量化方法通常遵循 **$S^{\mathbb{Z}} = S$** 的原则，即量化后的模型结构必须与原模型完全一致。
 
-QwT 提出了全新的范式，允许量化模型的结构发生微小变化，即 $S^{\mathbb{Z}} = S \cup S_c$。在量化后的每一个网络块（Block）后面并联一个极其轻量级的线性补偿层 $S_c$。
+QwT 提出了全新的范式，允许量化模型的结构发生微小变化，即 $S^{\mathbb{Z}} = S \cup S_c$ 。在量化后的每一个网络块（Block）后面并联一个极其轻量级的线性补偿层 $S_c$ 。
 
 <div align="center"><img src="../assets/QwT/Figure2.png" width="50%"></div>
 
@@ -22,7 +22,7 @@ QwT 的精髓在于将复杂的量化误差修复问题转化为一个简单的*
 
 ### 问题建模
 
-设全精度块的输出为 $y$，量化块的输入为 $x^{\mathbb{Z}}$，量化块的输出为 $y^{\mathbb{Z}}$。引入线性补偿层 $c(x^{\mathbb{Z}}) = Wx^{\mathbb{Z}} + b$，使得：
+设全精度块的输出为 $y$ ，量化块的输入为 $x^{\mathbb{Z}}$ ，量化块的输出为 $y^{\mathbb{Z}}$ 。引入线性补偿层 $c(x^{\mathbb{Z}}) = Wx^{\mathbb{Z}} + b$ ，使得：
 
 $$
 y^{QwT} = l^{\mathbb{Z}}(x^{\mathbb{Z}}) + (Wx^{\mathbb{Z}} + b)
@@ -39,9 +39,9 @@ $$
 
 ### 闭式解公式
 
-设已吸收偏置后的增强输入矩阵为 $X^{\mathbb{Z}} \in \mathbb{R}^{(d_{in}+1) \times N}$，待求解的残差矩阵为 $E = Y - Y^{\mathbb{Z}} \in \mathbb{R}^{d_{out} \times N}$ 。
+设已吸收偏置后的增强输入矩阵为 $X^{\mathbb{Z}} \in \mathbb{R}^{(d_{in}+1) \times N}$ ，待求解的残差矩阵为 $E = Y - Y^{\mathbb{Z}} \in \mathbb{R}^{d_{out} \times N}$ 。
 
-我们希望找到权重矩阵 $W$，最小化均方误差。其代价函数 $L(W)$ 可以表示为 Frobenius 范数的平方：
+我们希望找到权重矩阵 $W$ ，最小化均方误差。其代价函数 $L(W)$ 可以表示为 Frobenius 范数的平方：
 
 $$
 L(W) = \|E - W X^{\mathbb{Z}} \|_F^2 = \text{tr} \left( (E - W X^{\mathbb{Z}}) (E - W X^{\mathbb{Z}})^\top \right)
@@ -53,19 +53,19 @@ $$
 L(W) = \text{tr}(EE^\top) - \text{tr}(EX^{\mathbb{Z}\top}W^\top) - \text{tr}(W X^{\mathbb{Z}} E^\top) + \text{tr}(W X^{\mathbb{Z}} X^{\mathbb{Z}\top} W^\top)
 $$
 
-利用矩阵迹的性质（$\text{tr}(A) = \text{tr}(A^\top)$ 和 $\frac{\partial \text{tr}(AXB)}{\partial X} = A^\top B^\top$），我们对 $W$ 求偏导：
+利用矩阵迹的性质（ $\text{tr}(A) = \text{tr}(A^\top)$ 和 $\frac{\partial \text{tr}(AXB)}{\partial X} = A^\top B^\top$ ），我们对 $W$ 求偏导：
 
 $$
 \frac{\partial L}{\partial W} = -2 E X^{\mathbb{Z}\top} + 2 W X^{\mathbb{Z}} X^{\mathbb{Z}\top}
 $$
 
-令偏导数为 $0$，得到线性回归的最优性条件：
+令偏导数为 $0$ ，得到线性回归的最优性条件：
 
 $$
 W X^{\mathbb{Z}} X^{\mathbb{Z}\top} = E X^{\mathbb{Z}\top}
 $$
 
-由于我们需要求 $W$，且 $X^{\mathbb{Z}} X^{\mathbb{Z}\top}$ 是一个 $(d_{in}+1) \times (d_{in}+1)$ 的半正定矩阵（在采样数 $N$ 足够大时通常是满秩且可逆的），我们直接右乘其逆矩阵：
+由于我们需要求 $W$ ，且 $X^{\mathbb{Z}} X^{\mathbb{Z}\top}$ 是一个 $(d_{in}+1) \times (d_{in}+1)$ 的半正定矩阵（在采样数 $N$ 足够大时通常是满秩且可逆的），我们直接右乘其逆矩阵：
 
 $$
 W^* = E X^{\mathbb{Z}\top} (X^{\mathbb{Z}} X^{\mathbb{Z}\top})^{-1}
@@ -79,7 +79,7 @@ $$
 
 计算的主要开销在于矩阵乘法 $O(d_{in}^2 N)$ 和求逆 $O(d_{in}^3)$ 。
 
-$d_{in}$ 通常在 1024 左右，采样点 $N$ 为 512 张图像转换后的 token 数（量级约 $10^5$），这个量级的矩阵运算在单张 GPU 上确实可以在 2 分钟内完成 
+$d_{in}$ 通常在 1024 左右，采样点 $N$ 为 512 张图像转换后的 token 数（量级约 $10^5$ ），这个量级的矩阵运算在单张 GPU 上确实可以在 2 分钟内完成 
 
 ------
 
@@ -87,7 +87,7 @@ $d_{in}$ 通常在 1024 左右，采样点 $N$ 为 512 张图像转换后的 tok
 
 为了防止在极少数线性拟合效果极差的情况下破坏模型精度，QwT 引入了判定系数 $R^2$ 作为开关：
 
-- **定义**：$R^2$ 衡量了线性补偿层对量化残差的解释能力。
+- **定义**： $R^2$ 衡量了线性补偿层对量化残差的解释能力。
 
   $$
   R^2 = 1 - \frac{\| Y - Y^{QwT} \|^2}{\| Y - Y^{\mathbb{Z}} \|^2}
@@ -95,8 +95,8 @@ $d_{in}$ 通常在 1024 左右，采样点 $N$ 为 512 张图像转换后的 tok
 
 - **决策逻辑**：
 
-  - **如果 $R^2 > 0$**：说明线性补偿有正向作用，应用计算出的 $W^*$。
-  - **如果 $R^2 \le 0$**：说明线性拟合失败，强制令 $W=0, b=0$。
+  - **如果 $R^2 > 0$**：说明线性补偿有正向作用，应用计算出的 $W^*$ 。
+  - **如果 $R^2 \le 0$**：说明线性拟合失败，强制令 $W=0, b=0$ 。
 
 - **意义**：这一机制确保了 QwT 在最坏情况下也不会比原始 PTQ 模型差，提供了“无痛”的技术保障。
 

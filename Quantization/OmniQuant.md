@@ -25,10 +25,10 @@ $$
 \arg\min_{\Theta_1, \Theta_2} || Y_{FP} - Y_Q(\Theta_1, \Theta_2) ||^2
 $$
 
-*   $Y_{FP}$：全精度 Block 的输出。
-*   $Y_Q$：量化后 Block 的输出。
-*   $\Theta_1$：LWC 参数（针对权重）。
-*   $\Theta_2$：LET 参数（针对激活）。
+*   $Y_{FP}$ ：全精度 Block 的输出。
+*   $Y_Q$ ：量化后 Block 的输出。
+*   $\Theta_1$ ：LWC 参数（针对权重）。
+*   $\Theta_2$ ：LET 参数（针对激活）。
 
 ---
 
@@ -38,8 +38,8 @@ $$
 传统的 Min-Max 量化直接取权重的最大/最小值作为边界，容易受离群值 (Outliers) 影响，拉大量化步长，导致大部分正常数值精度丢失。LWC 认为**最佳裁剪阈值**不应该是固定的，而应该是**通过梯度学习出来的**。
 
 #### 数学公式推导
-假设原始权重为 $W$，量化比特数为 $N$。
-LWC 引入两个可学习的比例因子：$\gamma$ (控制上界) 和 $\beta$ (控制下界)。
+假设原始权重为 $W$ ，量化比特数为 $N$ 。
+LWC 引入两个可学习的比例因子： $\gamma$ (控制上界) 和 $\beta$ (控制下界)。
 
 1.  **确定裁剪边界 (Clipping Bounds)：**
 
@@ -47,7 +47,7 @@ LWC 引入两个可学习的比例因子：$\gamma$ (控制上界) 和 $\beta$ (
      Upper = \gamma \cdot \max(W), \quad Lower = \beta \cdot \min(W) 
     $$
 
-    *注：$\gamma, \beta$ 通过 Sigmoid 函数限制在 $(0, 1)$ 之间，即只缩小范围，不扩大。*
+    *注： $\gamma, \beta$ 通过 Sigmoid 函数限制在 $(0, 1)$ 之间，即只缩小范围，不扩大。*
     
 2.  **计算量化步长 (Step Size $h$)：**
 
@@ -78,18 +78,18 @@ LWC 引入两个可学习的比例因子：$\gamma$ (控制上界) 和 $\beta$ (
 LLM 的激活值 (Activation) 存在难以量化的**离群值**。LET 利用数学等价性，通过**缩放 (Scaling)** 和 **偏移 (Shifting)**，将激活值的离群压力转移给权重。
 
 #### 场景 1：Linear 层变换
-对于线性层 ，LET 引入缩放因子 $s$ 和偏移因子 $\delta$（均为可学习向量）：
+对于线性层 ，LET 引入缩放因子 $s$ 和偏移因子 $\delta$ （均为可学习向量）：
 
 $$
 Y = XW + B = \underbrace{[(X - \delta) \oslash s]}_{\tilde{X}} \cdot \underbrace{[s \odot W]}_{\tilde{W}} + \underbrace{[B + \delta W]}_{\tilde{B}}
 $$
 
-*   **$\tilde{X}$ (新激活)**：先减 $\delta$ 再除 $s$。激活值变平滑，易于量化。
-*   **$\tilde{W}$ (新权重)**：乘以 $s$。虽然变大了，但交给 LWC 处理。
-*   符号说明：$\oslash$ 为逐元素除，$\odot$ 为逐元素乘。
+*   **$\tilde{X}$ (新激活)**：先减 $\delta$ 再除 $s$ 。激活值变平滑，易于量化。
+*   **$\tilde{W}$ (新权重)**：乘以 $s$ 。虽然变大了，但交给 LWC 处理。
+*   符号说明： $\oslash$ 为逐元素除， $\odot$ 为逐元素乘。
 
 #### 场景 2：Attention 模块变换 (Q/K/V)
-对于注意力矩阵 $P = \text{Softmax}(QK^T)$，LET 引入缩放因子 $s_a$：
+对于注意力矩阵 $P = \text{Softmax}(QK^T)$ ，LET 引入缩放因子 $s_a$ ：
 
 $$
 P = \text{Softmax}\left( \underbrace{(Q \oslash s_a)}_{\tilde{Q}} \cdot \underbrace{(s_a \odot K^T)}_{\tilde{K}^T} \right)
@@ -103,7 +103,7 @@ $$
 
 ### 3.1 激活离群值与权重的关系 ("质量守恒")
 *   **现象**：激活值 $X$ 中存在巨大的离群值（如 100），导致量化范围被撑大，小数值（0.1）精度丢失。
-*   **操作**：LET 将激活值除以 $s$（如 $s=100$），同时将权重乘以 $s$。
+*   **操作**：LET 将激活值除以 $s$ （如 $s=100$ ），同时将权重乘以 $s$ 。
 
     $$
     Y = (X \div 100) \times (W \times 100)
@@ -115,7 +115,7 @@ $$
 *   **为什么这么做？** 这是一个**“转移痛苦”**的过程。激活值是动态的，很难处理；权重是静态参数，我们有 **LWC** 这个强力工具来压制变大后的权重。总体收益 > 代价。
 
 ### 3.2 LWC 的作用范围
-*   **LWC 仅用于权重 (Weights)**：因为权重是固定的，可以训练固定的裁剪阈值 $\gamma, \beta$。
+*   **LWC 仅用于权重 (Weights)**：因为权重是固定的，可以训练固定的裁剪阈值 $\gamma, \beta$ 。
 *   **激活值如何量化？** 在经过 **LET** 变换（压平离群值）后，激活值分布变得很规范，直接使用最简单的 **Min-Max 量化** 即可获得很好的效果。
 
 ### 3.3 LET 的“零成本推理”魔法 (Zero-Cost Inference)
@@ -124,11 +124,11 @@ LET 在训练时引入了除法、减法、乘法，但在推理时这些操作*
 **1. 权重的融合 (Weight Fusion)**
 
 *   训练得到的 $s$ 是常数。
-*   **操作**：直接计算 $W' = W \odot s$，并保存到模型文件中。
-*   **推理**：直接加载新权重 $W'$。
+*   **操作**：直接计算 $W' = W \odot s$ ，并保存到模型文件中。
+*   **推理**：直接加载新权重 $W'$ 。
 
 **2. 激活的融合 (Activation Fusion) —— 重点**
-激活变换公式为 $\tilde{X} = (X - \delta) / s$。
+激活变换公式为 $\tilde{X} = (X - \delta) / s$ 。
 输入 $X$ 通常来自上一层的 LayerNorm：
 
 $$
@@ -320,7 +320,7 @@ LSQ 和 PACT 是经典的量化感知训练 (QAT) 方法，也会学习裁剪阈
 
 *   **原理通用性：** LWC 处理的是“权重的长尾分布”问题。无论是 LLM 里的 `Linear` 层，还是 BEVFusion 里的 `Conv2d` (图像分支) 或 `SparseConv` (激光雷达分支)，权重矩阵里都有离群���。
 *   **迁移策略：**
-    *   对于 **Conv2d**：OmniQuant 的 LWC 公式可以直接套用。唯一的区别是 Linear 层的权重是二维的 $(C_{out}, C_{in})$，而卷积层权重是四维的 $(C_{out}, C_{in}, K, K)$。你只需要在计算 Max/Min 时注意维度规约即可（通常是对 Channel 维度做裁剪）。
+    *   对于 **Conv2d**：OmniQuant 的 LWC 公式可以直接套用。唯一的区别是 Linear 层的权重是二维的 $(C_{out}, C_{in})$ ，而卷积层权重是四维的 $(C_{out}, C_{in}, K, K)$ 。你只需要在计算 Max/Min 时注意维度规约即可（通常是对 Channel 维度做裁剪）。
     *   对于 **SparseConv (稀疏卷积)**：这是 LiDAR 分支的核心。稀疏卷积的权重本质上也是矩阵乘法，LWC 同样适用。
 *   **价值：** BEVFusion 部署时通常也追求 W4A4 或 W8A8，LWC 能显著保护权重精度，特别是对于 LiDAR 分支这种对数值敏感的模块。
 
@@ -351,7 +351,7 @@ LET 的核心是利用 $Y = (X/s) \cdot (sW)$ 将激活值的难度转移给权�
 这是 BEVFusion 最特殊的地方，也是 OmniQuant **最难直接套用**的地方。
 
 *   **原理：** BEV Pooling 把图像特征投影到 3D 空间。这是一个几何操作，不是简单的矩阵乘法。
-*   **问题：** 如果你在 Pooling 之前用 LET 对图像特征做了 Scaling ($X/s$)，你需要确保后续的融合操作能感知这个 $s$。
+*   **问题：** 如果你在 Pooling 之前用 LET 对图像特征做了 Scaling ($X/s$)，你需要确保后续的融合操作能感知这个 $s$ 。
     *   如果 LiDAR 特征没有做同样的缩放，那么直接 Concat（拼接）或者 Add（相加）就会导致**特征量级不匹配**，融合效果直接崩盘。
 *   **解决方案：** 你必须在融合（Fusion）发生之前，把 LET 的 Scaling 效果**逆转回去（De-quantize）**，或者强制让 LiDAR 分支和 Camera 分支学习**同一个** Scaling Factor（但这很难收敛）。
 
