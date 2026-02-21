@@ -93,7 +93,7 @@ PointNet 采用了一个简单粗暴但有效的策略 ：
 
 **核心思想**：将 3D 点云转换为Pillars，通过 PointNet 学习柱子特征，随后将其“散射”（Scatter）回 2D 网格生成伪图像Pseudo Image，最后利用 2D CNN 进行检测。这种设计避免了昂贵的 3D 卷积，实现了速度与精度的平衡 。
 
-<div align="center"><img src="../assets/PointPillars/Figure2.png"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/PointPillars/Figure2.png"></div>
 
 ##  Pillar Feature Net (PFN)
 
