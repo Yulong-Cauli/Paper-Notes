@@ -47,7 +47,7 @@ CornerNet 摒弃了传统的“锚框（Anchor Box）”机制，而是将目标
 
 ### Heatmaps—— 预测位置
 
-**输出**：两组热力图（左上和右下），尺寸为 $H \times W$，通道数 $C$（类别数）。
+**输出**：两组热力图（左上和右下），尺寸为 $H \times W$ ，通道数 $C$ （类别数）。
 
 **标签设计 (Soft Label)**：
 
@@ -55,7 +55,7 @@ CornerNet 摒弃了传统的“锚框（Anchor Box）”机制，而是将目标
 * 在 Ground Truth 附近，使用 **2D 高斯分布** ($e^{-\frac{x^2+y^2}{2\sigma^2}}$) 来减少对负样本的惩罚。
 * **半径确定**：根据物体大小动态计算半径，确保半径内的点生成的框与真值框 IoU $\ge 0.7$ 。
 
-**损失函数 ($L_{det}$)**：Focal Loss 的变体：$(1 - y_{cij})^\beta$ 项 降低了真值附近（$y_{cij}$ 接近 1）负样本的权重。
+**损失函数 ($L_{det}$)**：Focal Loss 的变体： $(1 - y_{cij})^\beta$ 项 降低了真值附近（ $y_{cij}$ 接近 1）负样本的权重。
 
 $$
 L_{det} = \frac{-1}{N} \sum_{c=1}^{C} \sum_{i=1}^{H} \sum_{j=1}^{W} \begin{cases} (1 - p_{cij})^\alpha \log(p_{cij}) & \text{if } y_{cij} = 1 \\ (1 - y_{cij})^\beta (p_{cij})^\alpha \log(1 - p_{cij}) & \text{otherwise} \end{cases}
@@ -87,7 +87,7 @@ $$
 
 **目的**：解决下采样带来的坐标精度丢失问题。
 
-**问题来源**：映射从原图到 Heatmap 时包含取整操作：$(\lfloor \frac{x}{n} \rfloor, \lfloor \frac{y}{n} \rfloor)$，这会丢失小数精度。
+**问题来源**：映射从原图到 Heatmap 时包含取整操作： $(\lfloor \frac{x}{n} \rfloor, \lfloor \frac{y}{n} \rfloor)$ ，这会丢失小数精度。
 
 **计算公式**：预测取整后丢失的小数部分。
 
@@ -107,4 +107,4 @@ $$
 L = L_{det} + \alpha L_{pull} + \beta L_{push} + \gamma L_{off}
 $$
 
-检测损失权重：1，为主导项。$\alpha$ ：0.1、 $\beta$ ：0.1、 $\gamma$ ：1
+检测损失权重：1，为主导项。 $\alpha$ ：0.1、 $\beta$ ：0.1、 $\gamma$ ：1

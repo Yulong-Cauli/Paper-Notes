@@ -24,7 +24,7 @@ AMDB 是系统的预处理与分发中心。
 
 - **常驻 的 LiDAR 分支**：
   - 使用 UNet 和轻量化 3D CNN 提取点云特征。
-  - **Proposal Regions 生成**：产生初步的候选区域及其置信度分数 $C$。
+  - **Proposal Regions 生成**：产生初步的候选区域及其置信度分数 $C$ 。
 - **动态激活 的 图像分支**：
   - 仅在场景自适应调度器（SAD）判定为“困难场景”时，才会启动 ResNet 提取 2D 图像特征。
 - **多尺度池化 (Multiscale Pooling, MP)**：
@@ -39,13 +39,13 @@ SAD 是决策核心，根据 AMDB 提供的目标距离 $D$ 和置信度 $C$ 决
 **路由判据与逻辑：**
 
 1. **LPE (延迟优先) 路径**：
-   - **判定条件**：所有候选区域满足 $\text{dist} < D$ 且 $\text{conf} \ge C$。
+   - **判定条件**：所有候选区域满足 $\text{dist} < D$ 且 $\text{conf} \ge C$ 。
    - **逻辑**：近场且清晰，直接使用 2D CNN 处理 BEV 投影，极致压低延迟。
 2. **VEE (通用效率) 路径**：
-   - **判定条件**：存在 $\text{dist} < D$ 但 $\text{conf} < C$（近但模糊），或 $\text{dist} \ge D$ 但 $\text{conf} \ge C$（远但清晰）。
+   - **判定条件**：存在 $\text{dist} < D$ 但 $\text{conf} < C$ （近但模糊），或 $\text{dist} \ge D$ 但 $\text{conf} \ge C$ （远但清晰）。
    - **逻辑**：升级为 3D 稀疏卷积，保留空间几何结构。
 3. **APE (精度优先) 路径**：
-   - **判定条件**：存在 $\text{dist} \ge D$ 且 $\text{conf} < C$。
+   - **判定条件**：存在 $\text{dist} \ge D$ 且 $\text{conf} < C$ 。
    - **逻辑**：最难场景（远且模糊），强制开启图像融合路径，靠纹理语义补偿几何缺失。
 
 ### 2.3 三类异构专家
@@ -73,7 +73,7 @@ $$
 \mathcal{L}_{cls} = - \sum y \log(p)
 $$
 
-**回归损失 ($\mathcal{L}_{reg}$)：** 采用 Smooth-L1 监督 7 个自由度（$x, y, z, w, l, h, \theta$）
+**回归损失 ($\mathcal{L}_{reg}$)：** 采用 Smooth-L1 监督 7 个自由度（ $x, y, z, w, l, h, \theta$ ）
 
 $$
 \text{Smooth-L1}(x) = \begin{cases} 0.5x^2, & \text{if } |x| < 1 \\ |x| - 0.5, & \text{otherwise} \end{cases}
@@ -102,20 +102,20 @@ $$
 
 - **自适应优化器 (Adaptive Optimizer)**：
 
-  根据 Batch 内目标样本（对口样本）的占比 $p$ 动态调整学习率 $\alpha$：
+  根据 Batch 内目标样本（对口样本）的占比 $p$ 动态调整学习率 $\alpha$ ：
 
   $$
   \alpha = (1 + p) \cdot \alpha_0
   $$
   
 
-  其中 $p = \frac{1}{\mathcal{N}}\sum_{i=1}^{\mathcal{N}}1_{i\in\mathcal{T}}$，$\alpha_0$​ 为基础学习率。$\mathcal{N}$ 为Batch 大小。$\mathcal{T}$ 为目标样本子集。当 Batch 中专业对口的样本比例越高，学习率越大，强制专家在擅长领域快速精进。
+  其中 $p = \frac{1}{\mathcal{N}}\sum_{i=1}^{\mathcal{N}}1_{i\in\mathcal{T}}$ ， $\alpha_0$ 为基础学习率。 $\mathcal{N}$ 为Batch 大小。 $\mathcal{T}$ 为目标样本子集。当 Batch 中专业对口的样本比例越高，学习率越大，强制专家在擅长领域快速精进。
 
 ### 3.3 算子复杂度优化
 
-传统 3D 卷积复杂度为 $O(\mathcal{H}^3 \times \mathcal{C}_v)$，EMC2 算子仅处理非空体素 $\mathcal{N}$，复杂度降至 $O(\mathcal{N} \times \mathcal{C}_v)$，减少了约 **65-80%** 的冗余计算。
+传统 3D 卷积复杂度为 $O(\mathcal{H}^3 \times \mathcal{C}_v)$ ，EMC2 算子仅处理非空体素 $\mathcal{N}$ ，复杂度降至 $O(\mathcal{N} \times \mathcal{C}_v)$ ，减少了约 **65-80%** 的冗余计算。
 
-**并行搜索**：利用 GPU **并行前缀和（Parallel Prefix-sum）** 算法，将体素索引搜索时间从 $O(\mathcal{N})$ 优化至 $O(\log \mathcal{N})$。
+**并行搜索**：利用 GPU **并行前缀和（Parallel Prefix-sum）** 算法，将体素索引搜索时间从 $O(\mathcal{N})$ 优化至 $O(\log \mathcal{N})$ 。
 
 ------
 
