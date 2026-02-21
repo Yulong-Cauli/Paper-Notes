@@ -59,11 +59,11 @@ Max Pooling 实际上是在捕捉点云的**关键骨架 (Skeleton)**。只有�
 
    - 正则化技巧： 作者加了一个正则化项，强制要求这个特征变换矩阵 $A$ 接近正交矩阵：
 
-     $$
-     L_{reg} = ||I - AA^T||_F^2
-     $$
+$$
+L_{reg} = ||I - AA^T||_F^2
+$$
 
-     **原因：** 正交变换属于刚体变换（如旋转），它不会改变向量的模长，从而避免了在高维空间中丢失输入特征的信息。
+   **原因：** 正交变换属于刚体变换（如旋转），它不会改变向量的模长，从而避免了在高维空间中丢失输入特征的信息。
 
 ------
 
@@ -280,7 +280,7 @@ PillarNet 包含三个核心模块：
 2. Neck（v1/v2/v2-D/v3），融合特征。
 3. Orientation-Decoupled IoU Loss（OD-IoU）
 
-**总体思想：**通过多尺度 encoder + 强融合 neck 替代 PointPillars 的弱 backbone，并通过 OD-IoU 提升 box 回归稳定性。
+**总体思想：** 通过多尺度 encoder + 强融合 neck 替代 PointPillars 的弱 backbone，并通过 OD-IoU 提升 box 回归稳定性。
 
 <div align="center"><img src="../assets/PillarNet/Figure_Compare.png"></div>
 
@@ -288,11 +288,11 @@ PillarNet 包含三个核心模块：
 
 ## Encoder Design
 
-**问题：**PointPillars 的 backbone 非常浅，只包含 一个小型 PointNet，用于处理 pillar 内点 和一个 2D CNN。这会导致深层语义特征弱，难以处理高分辨率（小 pillar size）。
+**问题：** PointPillars 的 backbone 非常浅，只包含 一个小型 PointNet，用于处理 pillar 内点 和一个 2D CNN。这会导致深层语义特征弱，难以处理高分辨率（小 pillar size）。
 
-**目标：**解决深层语义特征弱
+**目标：** 解决深层语义特征弱
 
-**解决：**构建类似 ResNet 的多尺度主干：1× （高空间精度）...16×（高语义抽象）。每个 stage 通过 Sparse 2D Convolution 构建。
+**解决：** 构建类似 ResNet 的多尺度主干：1× （高空间精度）...16×（高语义抽象）。每个 stage 通过 Sparse 2D Convolution 构建。
 
 **为什么使用 Sparse Conv？**
 
@@ -308,7 +308,7 @@ BEV pseudo-image 高度稀疏，即很多 pillar 为空，而dense convolution �
 
 ## Neck Design
 
-**目标：**需要将不同尺度特征有效融合，使网络既能看局部细节又能理解全局语义。
+**目标：** 需要将不同尺度特征有效融合，使网络既能看局部细节又能理解全局语义。
 
 **v1**：类似 FPN，将各层上采样到同一尺度并拼接。
 
@@ -320,9 +320,9 @@ BEV pseudo-image 高度稀疏，即很多 pillar 为空，而dense convolution �
 
 ## Orientation-Decoupled IoU Loss（OD-IoU）
 
-**问题：**在 BEV 3D 检测中，IoU 对 box 的角度敏感，IoU 下降会导致训练梯度震荡，回归不稳定。
+**问题：** 在 BEV 3D 检测中，IoU 对 box 的角度敏感，IoU 下降会导致训练梯度震荡，回归不稳定。
 
-**解决：**把**方向 $\theta$** 从回归问题中**“解耦”**出来。
+**解决：** 把 **方向 $\theta$** 从回归问题中 **“解耦”** 出来。
 
 设计一个**两部分的损失函数** $\mathcal{L}_{\text{IoU-Decoupled}}$ 来取代传统的 3D IoU 损失，将 7 个参数的回归任务拆分：
 
@@ -330,7 +330,7 @@ BEV pseudo-image 高度稀疏，即很多 pillar 为空，而dense convolution �
 
 这一部分使用标准的 IoU 损失（或其变体），但仅作用于目标框的**中心点 $(x, y, z)$** 和**尺寸 $(l, w, h)$**。
 
-- **工作方式：** 在计算 IoU 时，它**忽略了角度 $\theta$**，可以把它想象成计算一个**与坐标轴对齐的 3D 边界框**（即 $\theta=0$ ）的 IoU 损失。
+- **工作方式：** 在计算 IoU 时，它**忽略了角度 $\theta$**，可以把它想象成计算一个**与坐标轴对齐的 3D 边界框** （即 $\theta=0$ ）的 IoU 损失。
 - **优势：** 这样一来，中心点和尺寸的回归就**不会受到角度误差剧烈波动的影响**，使得优化过程更稳定、梯度更平滑，网络可以更专注于学习目标框的位置和大小。
 
 2、**独立的方向回归损失 (Orientation Loss)**
@@ -340,7 +340,7 @@ BEV pseudo-image 高度稀疏，即很多 pillar 为空，而dense convolution �
 - **工作方式：** 它会使用特殊的**角度编码**，来确保**角度的周期性**（如 $-\pi/2$ 和 $\pi/2$ 在几何上可能代表相似的方向）得到正确的处理，避免边界问题。
 - **优势：** 这解决了传统 3D IoU 损失中，角度误差对整体 IoU 贡献过大、导致优化不稳定的问题。
 
-通过将 $\mathcal{L}_{\text{IoU-Decoupled}} = \mathcal{L}_{\text{IoU-No-Orientation}} + \lambda \mathcal{L}_{\text{Orientation}}$ 结合。
+通过将 $\mathcal{L}\_{\text{IoU-Decoupled}} = \mathcal{L}\_{\text{IoU-No-Orientation}} + \lambda \mathcal{L}\_{\text{Orientation}}$ 结合。
 
 ------
 
