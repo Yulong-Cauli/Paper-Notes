@@ -10,7 +10,7 @@
 
 解决单目 3D 检测中深度信息缺失和特征模糊的问题。
 
-通过预测像素级的**分类深度分布（Categorical Depth Distribution）**，将 2D 图像特征精准地投影到 3D 视锥空间，并进行**端到端（End-to-End）**的联合训练。
+通过预测像素级的**分类深度分布（Categorical Depth Distribution）**，将 2D 图像特征精准地投影到 3D 视锥空间，并进行**端到端**的联合训练。
 
 $$
 \text{Image} \rightarrow \text{Frustum Feature Net} \rightarrow \text{Frustum-to-Voxel} \rightarrow \text{Voxel Collapse} \rightarrow \text{BEV Detection}
@@ -31,7 +31,7 @@ $$
 
 ### 视锥特征网络 (Frustum Feature Network)
 
-这是连接 2D 和 3D 的桥梁，核心是**外积（Outer Product）**操作。
+这是连接 2D 和 3D 的桥梁，核心是**外积**操作。
 
 - **输入**：RGB 图像 $I$。
 
@@ -40,10 +40,10 @@ $$
   1. **图像特征分支 ($F$)**：
      - 提取自 ResNet-101 的 **Block 1**。
      - **为什么选 Block 1？** 为了保持**高空间分辨率**（仅下采样 4 倍），避免转换到 3D 网格时丢失几何细节。
-     - 通道降维：$256 \rightarrow 64$。
+     - 通道降维： $256 \rightarrow 64$。
   2. **深度分布分支 ($D$)**：
      - 预测每个像素属于 $D$ 个离散深度区间（Bins）的概率。
-     - 输出维度：$H \times W \times D$（Categorical Distribution）。
+     - 输出维度： $H \times W \times D$（Categorical Distribution）。
      - **核心理念**：不回归单一深度值，而是预测分布以保留**不确定性（Uncertainty）**。
 
 - **特征融合（外积）**：
