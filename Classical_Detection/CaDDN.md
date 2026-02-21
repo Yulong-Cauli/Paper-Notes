@@ -46,12 +46,7 @@ $$
      - 输出维度： $H \times W \times D$ （Categorical Distribution）。
      - **核心理念**：不回归单一深度值，而是预测分布以保留**不确定性（Uncertainty）**。
 
-- **特征融合（外积）**：
-
-  $$
-  G(u,v) = D(u,v) \otimes F(u,v)
-  $$
-
+- **特征融合（外积）**： $G(u,v) = D(u,v) \otimes F(u,v)$
   - **物理意义**：将图像特征 $F$ 按照深度概率 $D$ 进行加权，沿深度轴“拉伸”。概率高的地方特征强，概率低的地方特征被抑制。
   - **解决痛点**：解决了传统方法中的特征拖影（Smearing）问题，生成的视锥特征 $G$ 更加**尖锐（Sharp）**。
 
@@ -67,17 +62,9 @@ $$
 
   对于体素网格 $V$ 中的每一个中心点 $s^v_k = (x, y, z)$ ：
 
-  1. **计算平面坐标**：利用相机投影矩阵 $P$ （ $3\times4$ 或扩充为 $4\times4$ ），将 3D 点投影回 2D 图像：
+  1. **计算平面坐标**：利用相机投影矩阵 $P$ （ $3\times4$ 或扩充为 $4\times4$ ），将 3D 点投影回 2D 图像： $[u, v, 1]^T \sim P \times [x, y, z, 1]^T$
 
-     $$
-     [u, v, 1]^T \sim P \times [x, y, z, 1]^T
-     $$
-
-  2. **计算深度索引**：利用 **LID (Linear-Increasing Discretization)** 公式，将连续深度 $z$ 转换为离散索引 $d_{index}$ ：
-
-     $$
-     d_c = d_{min} + \frac{d_{max}-d_{min}}{D(D+1)} \cdot d_i(d_i+1)
-     $$
+  2. **计算深度索引**：利用 **LID (Linear-Increasing Discretization)** 公式，将连续深度 $z$ 转换为离散索引 $d_{index}$ ： $d_c = d_{min} + \frac{d_{max}-d_{min}}{D(D+1)} \cdot d_i(d_i+1)$
 
 <div align="center"><img src="../assets/CaDDN/Figure_DepthBin.png"></div>
 
@@ -103,9 +90,9 @@ $$
   
   - 计算：根据距离加权。它离 $B$ 更近（占 0.6），离 $A$ 稍远（占 0.4）。
   
-    $$
-    Value = A \cdot (1 - 0.6) + B \cdot 0.6 = 10 \cdot 0.4 + 20 \cdot 0.6 = 16
-    $$
+$$
+Value = A \cdot (1 - 0.6) + B \cdot 0.6 = 10 \cdot 0.4 + 20 \cdot 0.6 = 16
+$$
 
 ------
 
@@ -130,24 +117,24 @@ $$
     - *结果*：得到最终唯一的特征值。
 
 $$
-  \text{Feature} = \sum_{i,j,k \in \{0,1\}} C_{ijk} \cdot (1 - |i - x_d|) \cdot (1 - |j - y_d|) \cdot (1 - |k - z_d|)
+\text{Feature} = \sum_{i,j,k \in \{0,1\}} C_{ijk} \cdot (1 - |i - x_d|) \cdot (1 - |j - y_d|) \cdot (1 - |k - z_d|)
 $$
 
 ### 3. 体素坍缩至 BEV (Voxel Collapse to BEV)
 
 将 3D 体素“拍扁”成 2D 的鸟瞰图特征，同时保留高度信息。
 
-- **堆叠 (Concatenation)**：将高度轴 $Z$ 的数据拼接到通道轴 $C$ 上。
+**堆叠**：将高度轴 $Z$ 的数据拼接到通道轴 $C$ 上。
 
-  $$
-  V(X, Y, Z, C) \rightarrow \tilde{B}(X, Y, Z \cdot C)
-  $$
+$$
+V(X, Y, Z, C) \rightarrow \tilde{B}(X, Y, Z \cdot C)
+$$
   
-- **压缩 (Channel Reduction)**：使用 $1\times1$ 卷积将通道数降回 $C$ 。
+**压缩**：使用 $1\times1$ 卷积将通道数降回 $C$ 。
 
-  $$
-  \tilde{B}(X, Y, Z \cdot C) \xrightarrow{1\times1 \text{ Conv}} B(X, Y, C)
-  $$
+$$
+\tilde{B}(X, Y, Z \cdot C) \rightarrow B(X, Y, C)
+$$
 
   - **作用**：网络自动学习不同高度切片（如车轮高度 vs 车顶高度）的重要性并进行融合。
 
@@ -219,4 +206,4 @@ $$
 1. **深度必须监督**：不要指望网络在做检测任务时顺便学会深度，必须用 LiDAR 真值手把手教 (Table 3 Exp 3)。
 2. **不仅要准，还要专**：通用的深度估计网络（BTS/DORN）不如专门为了检测任务而联合训练的网络 (Table 4 Exp 4 vs 1/2)。
 3. **不要太绝对**：保留概率分布（Soft）比直接选一个深度值（Hard）有更高的容错率，是单目 3D 检测的关键 (Table 4 Exp 5 vs 4)。
-4. **细节决定成败**：前景加权 ($\alpha_{fg}$) 和 LID 离散化这些工程细节对最终达到 SOTA 贡献显著。
+4. 前景加权 ($\alpha_{fg}$) 和 LID 离散化这些工程细节对最终达到 SOTA 贡献显著。
