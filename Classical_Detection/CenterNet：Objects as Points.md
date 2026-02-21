@@ -96,7 +96,7 @@ L_{off} = \frac{1}{N} \sum_{p} |\hat{O}_{\tilde{p}} - (\frac{p}{R} - \tilde{p})|
 $$
 
 <div align="center">
-    <img src="../assets/CenterNet/Figure_OffsetLoss_2.png" width="20%">
+    <img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/CenterNet/Figure_OffsetLoss_2.png" width="20%">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9; display: inline-block; color: #999; padding: 2px;">
       注意：这里和CornerNet的Offset Loss有一点区别

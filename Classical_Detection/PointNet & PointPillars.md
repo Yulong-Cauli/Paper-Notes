@@ -232,7 +232,7 @@ return batch_dict
 
 **方向分类**：由于回归损失（Sine-Error）无法区分车头朝前 ($0^\circ$) 还是朝后 ($180^\circ$)，网络增加了一个 softmax 分类分支来学习离散化的方向 10。
 
-<div align="center"><img src="../assets/PointPillars/Figure_Loss.png"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/PointPillars/Figure_Loss.png"></div>
 
 代码通过 `AnchorHeadSingle` 类实现，包含三个并行的 $1\times1$ 卷积分支。
 
@@ -282,7 +282,7 @@ PillarNet 包含三个核心模块：
 
 **总体思想：** 通过多尺度 encoder + 强融合 neck 替代 PointPillars 的弱 backbone，并通过 OD-IoU 提升 box 回归稳定性。
 
-<div align="center"><img src="../assets/PillarNet/Figure_Compare.png"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/PillarNet/Figure_Compare.png"></div>
 
 ------
 

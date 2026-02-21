@@ -22,7 +22,7 @@ CornerNet 摒弃了传统的“锚框（Anchor Box）”机制，而是将目标
 
 **无多尺度特征**：与许多其他检测器不同，CornerNet 不使用特征金字塔（FPN）来检测不同大小的物体，而是仅使用网络最后一层的输出进行预测。
 
-<div align="center"><img src="../assets/CornerNet/Figure2_Overview.png"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/CornerNet/Figure2_Overview.png"></div>
 
 ### Prediction Modules
 
@@ -33,7 +33,7 @@ CornerNet 摒弃了传统的“锚框（Anchor Box）”机制，而是将目标
 * 改进残差块：这是模块的第一部分。它将标准残差块中的第一个 $3 \times 3$ 卷积层替换为了 **Corner Pooling Module (角点池化模块)** 。
 * 后处理：经过池化和残差连接后，特征图通过卷积层融合，最终分支输出 **Heatmaps、Embeddings 和 Offsets**。
 
-<div align="center"><img src="../assets/CornerNet/Figure7_PredictA.png"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/CornerNet/Figure7_PredictA.png"></div>
 
 #### Corner Pooling (角点池化)
 
@@ -43,7 +43,7 @@ CornerNet 摒弃了传统的“锚框（Anchor Box）”机制，而是将目标
 
 **实现：** 以**左上角池化 (Top-Left Corner Pooling)** 为例，包含两个路径。一个路径从右向左进行 Max-pooling，另一个路径从下向上进行 Max-pooling，最后将这两个经过处理的特征图**相加**。
 
-<div align="center"><img src="../assets/CornerNet/Figure6_CornerPooling.png"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/CornerNet/Figure6_CornerPooling.png"></div>
 
 ### Heatmaps—— 预测位置
 

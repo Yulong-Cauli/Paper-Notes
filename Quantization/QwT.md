@@ -12,7 +12,7 @@
 
 QwT 提出了全新的范式，允许量化模型的结构发生微小变化，即 $S^{\mathbb{Z}} = S \cup S_c$ 。在量化后的每一个网络块（Block）后面并联一个极其轻量级的线性补偿层 $S_c$ 。
 
-<div align="center"><img src="../assets/QwT/Figure2.png" width="50%"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/QwT/Figure2.png" width="50%"></div>
 
 ------
 
