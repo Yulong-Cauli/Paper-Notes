@@ -6,7 +6,7 @@
 
 ---
 
-**核心思想**：将目标检测从传统的“基于锚框（Anchor-based）”回归问题，重构为类似语义分割的**全卷积逐像素预测（Per-pixel Prediction）**问题。
+**核心思想**：将目标检测从传统的 “Anchor-based” 回归问题，重构为类似语义分割的 **全卷积逐像素预测** 问题。
 
 ---
 
@@ -76,15 +76,15 @@ FPN 输出的每一层特征图（ $P_3$ 到 $P_7$ ）都共享同一个预测�
 
 * **计算公式**：
 
-  $$
-  \text{centerness}^* = \sqrt{\frac{\min(l^*, r^*)}{\max(l^*, r^*)} \times \frac{\min(t^*, b^*)}{\max(t^*, b^*)}}
-  $$
+$$
+  \text{centerness}^{\*} = \sqrt{\frac{\min(l^{\*}, r^{\*})}{\max(l^{\*}, r^{\*})} \times \frac{\min(t^{\*}, b^{\*})}{\max(t^{\*}, b^{\*})}}
+$$
 
 * **作用**：在推理阶段：
 
-  $$
+$$
   \text{最终得分} = \text{分类置信度} \times \text{Center-ness}
-  $$
+$$
 
   这使得低质量的边缘框得分变低，从而在 NMS（非极大值抑制）过程中被过滤掉。
 
@@ -94,9 +94,12 @@ FPN 输出的每一层特征图（ $P_3$ 到 $P_7$ ）都共享同一个预测�
 
 FCOS 的训练目标由三部分组成：**分类损失**、**回归损失**以及**中心度损失**。最终的总损失函数定义如下：
 
-$$
-L_{total} = \frac{1}{N_{pos}} \sum_{x,y} L_{cls}(p_{x,y}, c^*_{x,y}) + \frac{1}{N_{pos}} \sum_{x,y} \mathbb{I}_{\{c^*_{x,y} > 0\}} L_{reg}(t_{x,y}, t^*_{x,y}) + \frac{1}{N_{pos}} \sum_{x,y} \mathbb{I}_{\{c^*_{x,y} > 0\}} L_{center}(p_{ctr}, c^*_{ctr})
-$$
+<div align="center">
+    <img src="../assets/FCOS/Figure_Loss.png" width="50%">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9; display: inline-block; color: #999; padding: 2px;">
+      (github不知道为什么不能正确渲染这个公式)
+    </div>
+</div>
 
 
 其中 $N_{pos}$ 表示正样本的数量，用于归一化。求和是对特征图上所有位置 $(x, y)$ 进行的。
@@ -133,11 +136,11 @@ $$
 
 仅针对**正样本**计算 。
 
-- **目标值构建**：对于每一个正样本位置，根据其到四边的回归目标 $(l^*, t^*, r^*, b^*)$ 计算出一个 0~1 之间的实数作为“标签”：
+- **目标值构建**：对于每一个正样本位置，根据其到四边的回归目标 $(l^{\*}, t^{\*}, r^{\*}, b^{\*})$ 计算出一个 0~1 之间的实数作为“标签”：
 
-  $$
-  \text{centerness}^* = \sqrt{\frac{\min(l^*, r^*)}{\max(l^*, r^*)} \times \frac{\min(t^*, b^*)}{\max(t^*, b^*)}}
-  $$
+$$
+\text{centerness}^{\*} = \sqrt{\frac{\min(l^{\*}, r^{\*})}{\max(l^{\*}, r^{\*})} \times \frac{\min(t^{\*}, b^{\*})}{\max(t^{\*}, b^{\*})}}
+$$
 
 - **原理**：
 
