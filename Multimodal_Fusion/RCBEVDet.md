@@ -21,7 +21,7 @@
 *   **雷达流 (Radar Stream)**：这是本文的创新重点。输入雷达点云 -> **RadarBEVNet** -> 得到 **Radar BEV Feature**。
 *   **融合与检测**：两者在 **CAMF 模块** 中对齐和融合，最后送入 3D 检测头 (Head)。
 
-<div align="center"><img src="../assets/RCBEVDet/_page_2_Figure_0.jpeg"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/RCBEVDet/_page_2_Figure_0.jpeg"></div>
 
 ---
 
@@ -91,7 +91,7 @@ $$
 
 	**右图 (RCS-aware)**：点变成了**团块**。你可以隐约看出物体的**轮廓**和**占用区域**。这种**稠密 (Dense)** 的特征图，对于后续的卷积网络来说，非常容易提取形状和语义特征。
 
-<div align="center"><img src="../assets/RCBEVDet/_page_4_Picture_0.jpeg"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/RCBEVDet/_page_4_Picture_0.jpeg"></div>
 
 ---
 
@@ -102,7 +102,7 @@ $$
 这个模块主要解决一个核心痛点：**空间未对齐 (Spatial Misalignment)**。
 > *雷达虽然测距准，但在水平方位角（Azimuth）上经常有抖动和误差。如果直接把雷达图和摄像头图叠在一起（简单的 Concat），就像两张透写纸没对齐，影子是重影的，神经网络会学晕。
 
-<div align="center"><img src="../assets/RCBEVDet/_page_4_Picture_9.jpeg"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/RCBEVDet/_page_4_Picture_9.jpeg"></div>
 
 ### **第一步：基于可变形交叉注意力的对齐 (Alignment)**
 

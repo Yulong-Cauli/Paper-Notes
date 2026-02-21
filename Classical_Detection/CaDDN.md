@@ -16,7 +16,7 @@ $$
 \text{Image} \rightarrow \text{Frustum Feature Net} \rightarrow \text{Frustum-to-Voxel} \rightarrow \text{Voxel Collapse} \rightarrow \text{BEV Detection}
 $$
 
-<div align="center"><img src="../assets/CaDDN/Figure2_pipeline.png"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/CaDDN/Figure2_pipeline.png"></div>
 
 **整体流程**：
 
@@ -50,7 +50,7 @@ $$
   - **物理意义**：将图像特征 $F$ 按照深度概率 $D$ 进行加权，沿深度轴“拉伸”。概率高的地方特征强，概率低的地方特征被抑制。
   - **解决痛点**：解决了传统方法中的特征拖影（Smearing）问题，生成的视锥特征 $G$ 更加**尖锐（Sharp）**。
 
-<div align="center"><img src="../assets/CaDDN/Figure3_cross.png"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/CaDDN/Figure3_cross.png"></div>
 
 ### 视锥到体素转换 (Frustum to Voxel Transformation)
 
@@ -66,7 +66,7 @@ $$
 
   2. **计算深度索引**：利用 **LID (Linear-Increasing Discretization)** 公式，将连续深度 $z$ 转换为离散索引 $d_{index}$ ： $d_c = d_{min} + \frac{d_{max}-d_{min}}{D(D+1)} \cdot d_i(d_i+1)$
 
-<div align="center"><img src="../assets/CaDDN/Figure_DepthBin.png"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/CaDDN/Figure_DepthBin.png"></div>
 
      - *LID 优势*：相比均匀切分（UD），LID 在近处网格密（精度高），远处网格稀（适应稀疏点云），实现了更好的平衡。
 

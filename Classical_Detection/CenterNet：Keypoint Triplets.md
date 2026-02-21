@@ -17,7 +17,7 @@
 
 中心点的验证逻辑 是 如果一个边界框是正确的，那么在其**中心区域**应该能检测到一个同类别的中心点。
 
-<div align="center"><img src="../assets/CenterNet/Figure1.png"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/CenterNet/Figure1.png"></div>
 
 **中心区域的定义**：朴素的 N 等分，取中心。
 
@@ -25,7 +25,7 @@
   - 小物体 ($Scale < 150$)：区域相对较大 ($n=3$)，保证**召回率**。
   - 大物体 ($Scale > 150$)：区域相对较小 ($n=5$)，保证**精确度**。
 
-<div align="center"><img src="../assets/CenterNet/Figure3.png"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/CenterNet/Figure3.png"></div>
 
 Scale（尺度） 指的是物体边界框（Bounding Box）的大小，面积。
 
@@ -46,7 +46,7 @@ Scale（尺度） 指的是物体边界框（Bounding Box）的大小，面积�
   3. 两者相加。
 - **目的：** 让角点既包含边界信息，又包含物体的内部特征，提高鲁棒性。
 
-<div align="center"><img src="../assets/CenterNet/Figure4.png"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/CenterNet/Figure4.png"></div>
 
 **网络架构**
 
@@ -59,7 +59,7 @@ Scale（尺度） 指的是物体边界框（Bounding Box）的大小，面积�
 
   **推断流程：** 依然是单阶段 (One-stage)。不需要 RoI Pooling。
 
-<div align="center"><img src="../assets/CenterNet/Figure2.png"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/CenterNet/Figure2.png"></div>
 
 ------
 

@@ -8,7 +8,7 @@
 
 	目标：**利用 LiDAR（激光雷达）来教导 Radar（毫米波雷达），从而大幅提升 Radar 单独进行 3D 目标检测的性能。**
 
-<div align="center"><img src="../assets/RadarDistill/_page_2_Figure_0.jpeg"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/RadarDistill/_page_2_Figure_0.jpeg"></div>
 
 ---
 
@@ -28,7 +28,7 @@ $$
 
 	CMA 的结构看起来像一个“梯子”或者“U型结构”。
 
-<div align="center"><img src="../assets/RadarDistill/_page_3_Figure_13.jpeg"></div>
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/RadarDistill/_page_3_Figure_13.jpeg"></div>
 
 它主要干了三件事：**下采样、上采样、融合**。
 

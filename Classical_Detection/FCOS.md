@@ -17,12 +17,12 @@ $$
 $$
 
 <div align="center">
-    <img src="../assets/FCOS/Figure2_a.png" width="90%">
+    <img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/FCOS/Figure2_a.png" width="90%">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9; display: inline-block; color: #999; padding: 2px;">
       注意：关于 Center-ness 的归属问题，后续实验证明，将其移到回归分支后，AP 进一步提升
     </div>
-    <img src="../assets/FCOS/Figure2_Tips.png" width="70%">
+    <img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/FCOS/Figure2_Tips.png" width="70%">
 </div>
 
 
@@ -95,7 +95,7 @@ $$
 FCOS 的训练目标由三部分组成：**分类损失**、**回归损失**以及**中心度损失**。最终的总损失函数定义如下：
 
 <div align="center">
-    <img src="../assets/FCOS/Figure_Loss.png" width="50%">
+    <img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/FCOS/Figure_Loss.png" width="50%">
     <div style="color:orange; border-bottom: 1px solid #d9d9d9; display: inline-block; color: #999; padding: 2px;">
       (github不知道为什么不能正确渲染这个公式)
     </div>
