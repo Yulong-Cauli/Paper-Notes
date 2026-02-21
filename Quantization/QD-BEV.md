@@ -30,6 +30,7 @@
 #### 量化公式
 
 采用对称线性量化（Symmetric Linear Quantization）：
+
 $$
 q = \text{round}\left(\frac{r}{S}\right), \quad S = \frac{2|r_{\max}|}{2^k - 1}
 $$
@@ -42,9 +43,11 @@ $$
 #### 渐进式策略 (Progressive QAT)
 
 为了解决标准 QAT 一次性量化全网导致的训练崩溃，作者将量化过程分为四个阶段，按敏感度排序逐步引入：
+
 $$
 Backbone \rightarrow Neck\rightarrow Encoder \rightarrow Decoder
 $$
+
 <div align="center"><img src="../assets/QD-BEV/Figure3.png"></div>
 
 **量化流程：**在当前循环中，仅对该模块执行量化操作（将权重/激活压入低比特），而尚未轮到的模块保持高精度。 
@@ -56,6 +59,7 @@ $$
 #### 特征分布映射 ($\phi_{\tau}$)
 
 为了计算 KL 散度，需要将特征图 $F$ 转换为概率分布：
+
 $$
 \phi_{\tau}(x_{i}) = \frac{e^{x_{i}/\tau}}{\sum_{j}e^{x_{j}/\tau}}
 $$
@@ -65,11 +69,13 @@ $$
 #### 图像与 BEV 特征蒸馏损失
 
 - **图像损失 ($\mathcal{L}_{img}$)**：在图像 Neck 输出端计算。
+
   $$
   \mathcal{L}_{img} = \frac{\tau^2}{BWHC} \times \mathcal{D}_{KL}(\phi_{\tau}(F_{img}^T), \phi_{\tau}(F_{img}^S))
   $$
 
 - **BEV 损失 ($\mathcal{L}_{bev}$)**：在 Transformer 输出端计算。
+
   $$
   \mathcal{L}_{bev} = \frac{\tau^2}{BC} \times \mathcal{D}_{KL}(\phi_{\tau}(F_{bev}^T), \phi_{\tau}(F_{bev}^S))
   $$

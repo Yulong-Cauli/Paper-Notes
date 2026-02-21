@@ -56,6 +56,7 @@ CornerNet 摒弃了传统的“锚框（Anchor Box）”机制，而是将目标
 * **半径确定**：根据物体大小动态计算半径，确保半径内的点生成的框与真值框 IoU $\ge 0.7$ 。
 
 **损失函数 ($L_{det}$)**：Focal Loss 的变体：$(1 - y_{cij})^\beta$ 项 降低了真值附近（$y_{cij}$ 接近 1）负样本的权重。
+
 $$
 L_{det} = \frac{-1}{N} \sum_{c=1}^{C} \sum_{i=1}^{H} \sum_{j=1}^{W} \begin{cases} (1 - p_{cij})^\alpha \log(p_{cij}) & \text{if } y_{cij} = 1 \\ (1 - y_{cij})^\beta (p_{cij})^\alpha \log(1 - p_{cij}) & \text{otherwise} \end{cases}
 $$
@@ -70,11 +71,13 @@ $$
 **损失函数**：
 
 * **Pull Loss ($L_{pull}$)**：拉近属于同一物体的角点嵌入向量，使其接近均值 $e_k$ 。
+
   $$
   L_{pull} = \frac{1}{N} \sum_{k=1}^{N} [(e_{t_k} - e_k)^2 + (e_{b_k} - e_k)^2]
   $$
   
 * **Push Loss ($L_{push}$)**：推开不同物体的嵌入向量均值，设定阈值 $\Delta=1$ 。
+
   $$
   L_{push} = \frac{1}{N(N-1)} \sum_{k=1}^{N} \sum_{j \neq k}^{N} \max(0, \Delta - |e_k - e_j|)
   $$
@@ -87,15 +90,21 @@ $$
 **问题来源**：映射从原图到 Heatmap 时包含取整操作：$(\lfloor \frac{x}{n} \rfloor, \lfloor \frac{y}{n} \rfloor)$，这会丢失小数精度。
 
 **计算公式**：预测取整后丢失的小数部分。
+
 $$
 o_k = (\frac{x_k}{n} - \lfloor \frac{x_k}{n} \rfloor, \frac{y_k}{n} - \lfloor \frac{y_k}{n} \rfloor)
 $$
+
 **损失函数 ($L_{off}$)**：使用 Smooth L1 Loss，仅在 Ground Truth 位置计算。
+
 $$
 L_{off} = \frac{1}{N} \sum_{k=1}^{N}  \text{SmoothL1Loss}(\mathbf{o_k}, \hat{\mathbf{o_k}})
 $$
+
 综上，总的损失函数为：
+
 $$
 L = L_{det} + \alpha L_{pull} + \beta L_{push} + \gamma L_{off}
 $$
+
 检测损失权重：1，为主导项。$\alpha$ ：0.1、 $\beta$ ：0.1、 $\gamma$ ：1

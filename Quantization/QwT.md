@@ -64,6 +64,7 @@ $$
 $$
 W X^{\mathbb{Z}} X^{\mathbb{Z}\top} = E X^{\mathbb{Z}\top}
 $$
+
 由于我们需要求 $W$，且 $X^{\mathbb{Z}} X^{\mathbb{Z}\top}$ 是一个 $(d_{in}+1) \times (d_{in}+1)$ 的半正定矩阵（在采样数 $N$ 足够大时通常是满秩且可逆的），我们直接右乘其逆矩阵：
 
 $$
