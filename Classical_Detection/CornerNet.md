@@ -58,7 +58,8 @@ CornerNet 摒弃了传统的“锚框（Anchor Box）”机制，而是将目标
 **损失函数 ($L_{det}$)**：Focal Loss 的变体： $(1 - y_{cij})^\beta$ 项 降低了真值附近（ $y_{cij}$ 接近 1）负样本的权重。
 
 $$
-L_{det} = \frac{-1}{N} \sum_{c=1}^{C} \sum_{i=1}^{H} \sum_{j=1}^{W} \begin{cases} (1 - p_{cij})^\alpha \log(p_{cij}) & \text{if } y_{cij} = 1 \\ (1 - y_{cij})^\beta (p_{cij})^\alpha \log(1 - p_{cij}) & \text{otherwise} \end{cases}
+L_{det} = \frac{-1}{N} \sum_{c=1}^{C} \sum_{i=1}^{H} \sum_{j=1}^{W} \begin{cases} (1 - p_{cij})^\alpha \log(p_{cij}) & \text{if } y_{cij} = 1 \\
+(1 - y_{cij})^\beta (p_{cij})^\alpha \log(1 - p_{cij}) & \text{otherwise} \end{cases}
 $$
 
 
@@ -72,15 +73,15 @@ $$
 
 * **Pull Loss ($L_{pull}$)**：拉近属于同一物体的角点嵌入向量，使其接近均值 $e_k$ 。
 
-  $$
+$$
   L_{pull} = \frac{1}{N} \sum_{k=1}^{N} [(e_{t_k} - e_k)^2 + (e_{b_k} - e_k)^2]
-  $$
+$$
   
 * **Push Loss ($L_{push}$)**：推开不同物体的嵌入向量均值，设定阈值 $\Delta=1$ 。
-
-  $$
+  
+$$
   L_{push} = \frac{1}{N(N-1)} \sum_{k=1}^{N} \sum_{j \neq k}^{N} \max(0, \Delta - |e_k - e_j|)
-  $$
+$$
   
 
 ### Offsets —— 缩放的精度微调
