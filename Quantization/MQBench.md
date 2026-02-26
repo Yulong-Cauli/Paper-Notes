@@ -8,7 +8,7 @@
 
 ## 1. 概述 
 
-本文直击模型量化领域的两大核心痛点：**“不可复现”** 和**“不可部署”**。
+本文直击模型量化领域的两大核心痛点：**“不可复现”** 和 **“不可部署”** 。
 
 为此，作者提出了 MQBench，在软件层面拉齐了评价标准（统一数据增强、超参搜索）；在硬件层面强制对齐真实算子和计算图约束。
 
@@ -29,6 +29,7 @@
 假设原浮点数为 $x$，缩放因子为 $s$，零点为 $z$。
 
 **真实量化 (Quantize)**，也就是转为真实 INT8：
+
 $$
 q = \text{clip}\left(\text{round}\left(\frac{x}{s}\right) + z, \ 0, \ 255\right)
 $$
@@ -63,9 +64,11 @@ $$
 为了能在硬件上运行，下图必须将其转换为纯整数运算。我们将反量化公式代入，提取常数缩放因子到求和号外部，展开多项式：
 
 $$
-y &=& \sum(\hat{x} \cdot \hat{w}) \\
-  &=& \sum \left (s_x(q_x - z_x)\cdot s_w(q_w - z_w)\right ) \\  
-  &=&(s_x \cdot s_w) \sum \big( q_x q_w - z_w q_x - z_x q_w + z_x z_w \big)
+\begin{aligned}
+y &= \sum(\hat{x} \cdot \hat{w}) \\
+&= \sum \big(s_x(q_x - z_x)\cdot s_w(q_w - z_w)\big) \\
+&= (s_x \cdot s_w) \sum \big( q_x q_w - z_w q_x - z_x q_w + z_x z_w \big)
+\end{aligned}
 $$
 
 其中 $q_x q_w$ 是物理电路上的 `INT8 x INT8 -> INT32` 累加。MQBench 必须在 PyTorch 中通过设定严格的伪量化参数，来使得模拟计算的结果与物理硬件上述公式完全一致。
@@ -88,15 +91,13 @@ $$
 y_{conv} = W \cdot x + b
 $$
 
-**BN 公式： ** 这里 $\mu$ 是均值， $\sigma$ 是标准差， $\gamma$ 和 $\beta$ 是 BN 层的可学习缩放和偏移参数
-
+**BN 公式：** 这里 $\mu$ 是均值， $\sigma$ 是标准差， $\gamma$ 和 $\beta$ 是 BN 层的可学习缩放和偏移参数
 $$
 y_{bn} = \gamma \cdot \frac{y_{conv} - \mu}{\sigma} + \beta
 $$
 
 **折叠 (Folding) 的数学推导：**
 为了在部署时加速，推理引擎，如 TensorRT 会把 $y_{conv}$ 代入 $y_{bn}$ 中展开：
-
 $$
 y_{bn} = \gamma \cdot \frac{(W \cdot x + b) - \mu}{\sigma} + \beta
 $$
