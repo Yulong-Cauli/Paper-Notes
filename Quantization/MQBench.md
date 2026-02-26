@@ -92,12 +92,14 @@ y_{conv} = W \cdot x + b
 $$
 
 **BN 公式：** 这里 $\mu$ 是均值， $\sigma$ 是标准差， $\gamma$ 和 $\beta$ 是 BN 层的可学习缩放和偏移参数
+
 $$
 y_{bn} = \gamma \cdot \frac{y_{conv} - \mu}{\sigma} + \beta
 $$
 
 **折叠 (Folding) 的数学推导：**
 为了在部署时加速，推理引擎，如 TensorRT 会把 $y_{conv}$ 代入 $y_{bn}$ 中展开：
+
 $$
 y_{bn} = \gamma \cdot \frac{(W \cdot x + b) - \mu}{\sigma} + \beta
 $$
