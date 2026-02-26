@@ -9,7 +9,12 @@
 ## 1. 概述 
 
 本文直击模型量化领域的两大核心痛点：**“不可复现”** 和**“不可部署”**。
-为此，作者提出了 MQBench，在软件层面（统一数据增强、超参搜索）拉齐了评价标准，在硬件层面强制对齐真实算子和计算图约束，打造了**首个真正面向工业级落地、确保训练与部署完全一致的模型量化基准测试框架**。
+
+为此，作者提出了 MQBench，在软件层面拉齐了评价标准（统一数据增强、超参搜索）；在硬件层面强制对齐真实算子和计算图约束。
+
+是**首个真正面向工业级落地、确保训练与部署完全一致的模型量化基准测试框架**。
+
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/MQBench/_page_1_Figure_0.jpeg""></div>
 
 ---
 
@@ -24,7 +29,6 @@
 假设原浮点数为 $x$，缩放因子为 $s$，零点为 $z$。
 
 **真实量化 (Quantize)**，也就是转为真实 INT8：
-
 $$
 q = \text{clip}\left(\text{round}\left(\frac{x}{s}\right) + z, \ 0, \ 255\right)
 $$
@@ -50,19 +54,25 @@ $$
 
 ---
 
-真实硬件执行卷积时（**真量化**），是纯整型交叉计算。在图1中，卷积算子执行的是浮点乘加：
+真实硬件执行卷积时（**真量化**），是纯整型交叉计算。在上图中，卷积算子执行的是浮点乘加：
 
 $$
 y = \sum(\hat{x} \cdot \hat{w})
 $$
 
-为了能在硬件上运行，图2必须将其转换为纯整数运算。我们将反量化公式代入，提取常数缩放因子到求和号外部，展开多项式：
+为了能在硬件上运行，下图必须将其转换为纯整数运算。我们将反量化公式代入，提取常数缩放因子到求和号外部，展开多项式：
 
 $$
-y &=& \sum(\hat{x} \cdot \hat{w}) \\&=& \sum \left (s_x(q_x - z_x)\cdot s_w(q_w - z_w)\right ) \\  &=&(s_x \cdot s_w) \sum \big( q_x q_w - z_w q_x - z_x q_w + z_x z_w \big)
+y &=& \sum(\hat{x} \cdot \hat{w}) \\
+  &=& \sum \left (s_x(q_x - z_x)\cdot s_w(q_w - z_w)\right ) \\  
+  &=&(s_x \cdot s_w) \sum \big( q_x q_w - z_w q_x - z_x q_w + z_x z_w \big)
 $$
 
 其中 $q_x q_w$ 是物理电路上的 `INT8 x INT8 -> INT32` 累加。MQBench 必须在 PyTorch 中通过设定严格的伪量化参数，来使得模拟计算的结果与物理硬件上述公式完全一致。
+
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/MQBench/_page_3_Figure_0.jpeg""></div>
+
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/MQBench/_page_3_Figure_1.jpeg""></div>
 
 ---
 
@@ -78,7 +88,7 @@ $$
 y_{conv} = W \cdot x + b
 $$
 
-**BN 公式：**这里 $\mu$ 是均值，$\sigma$ 是标准差，$\gamma$ 和 $\beta$ 是 BN 层的可学习缩放和偏移参数
+**BN 公式： ** 这里 $\mu$ 是均值， $\sigma$ 是标准差， $\gamma$ 和 $\beta$ 是 BN 层的可学习缩放和偏移参数
 
 $$
 y_{bn} = \gamma \cdot \frac{y_{conv} - \mu}{\sigma} + \beta
@@ -92,9 +102,11 @@ y_{bn} = \gamma \cdot \frac{(W \cdot x + b) - \mu}{\sigma} + \beta
 $$
 
 我们把带有 $x$ 的项和常数项分离开来：
+
 $$
 y_{bn} = \left( W \cdot \frac{\gamma}{\sigma} \right) \cdot x + \left( (b - \mu) \cdot \frac{\gamma}{\sigma} + \beta \right)
 $$
+
 **结论：** 在实际部署的物理芯片上，不存在独立的 BN 层。它执行的是一个全新的 Conv 算子，其权重和偏置变成了：
 
 *   **折叠后的权重 (Folded Weight)：** $W_{fold} = W \cdot \frac{\gamma}{\sigma}$
@@ -139,9 +151,11 @@ $$
 但在 QAT 训练时，每一轮 Batch 送进来的数据都在变，导致当步的 $\mu_{batch}$ 和 $\sigma_{batch}$ 剧烈波动。
 如果我们在每次 Forward 传播时，直接彻底把波动的 $\mu_{batch}$ 吸收到偏置 $b$ 里去更新参数，反向传播的梯度会极其混乱，模型根本无法收敛，这对应了论文中提到的图 3-a 在训练时不可行。
 
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/MQBench/_page_4_Figure_0.jpeg""></div>
+
 **5 张核心演进图解析：**
 
-*   **图 (a) 纯部署态**：理想终点。无独立 BN 层，卷积直接使用提前折叠好的参数（$W_{fold}, b_{fold}$）运行。
+*   **图 (a) 纯部署态**：理想终点。无独立 BN 层，卷积直接使用提前折叠好的参数（ $W_{fold}, b_{fold}$ ）运行。
 *   **图 (b) 朴素折叠**：最天真的 QAT。前向传播直接强行用当步 Batch 的波动的均值和方差去更新偏置，导致训练极其不稳定，Loss 无法收敛。
 *   **图 (c) 双路计算**：另开一条无量化误差的全精度支路去计算干净的 BN 统计量。缺点是计算量翻倍，且数学上与部署态存在微小不匹配。
 *   **图 (d) 解耦偏置**：保留全局方差更新权重，另跑影子网络获取均值更新偏置，同时加一个尺度补偿因子。缺点是在低比特下依然会暴露精度损失。
@@ -162,6 +176,8 @@ $$
 ### 2.3 架构对齐：硬件计算图约束
 
 不同的硬件编译器对节点拓扑极其苛刻。学术界随意插量化节点会导致真实芯片无法进行算子融合，或者因类型不匹配直接报错。
+
+<div align="center"><img src="https://raw.githubusercontent.com/Yulong-Cauli/Paper-Notes/main/assets/MQBench/_page_5_Figure_0.jpeg""></div>
 
 **3 张核心拓扑图解析（以残差结构为例）：**
 *   **图 (1) 学术设定**：无脑在算子后插 FakeQuant。导致 Add 节点的两个输入一个是 INT8（带误差），一个是 FP32（未截断），硬件底层根本无法异构相加；且打破了底层 `Conv+ReLU` 的硬融合规则。
@@ -207,7 +223,7 @@ PTQ 用于在无梯度、无算力、只有极少量无标签校准集情况下�
 
 假设你现在跑Min-Max，流程如下：
 
-1.  **BN 层折叠**：首先从数学上把 FP32 模型的 BN 层彻底吸收合并进前一层的 Conv 权重（$W_{fold}$）和偏置中，消除独立 BN。
+1.  **BN 层折叠**：首先从数学上把 FP32 模型的 BN 层彻底吸收合并进前一层的 Conv 权重 $W_{fold}$ 和偏置中，消除独立 BN。
 2.  **插 Observers**：在模型的每一层权重矩阵和输入特征图上安插“Observers”。
 3.  **跑校准数据**：将 100 张图片作为 Batch 喂入模型，**仅做前向传播（Forward）**。
     *   权重探头：找出固定权重的最大值与最小值。
