@@ -1,8 +1,8 @@
 # Paper-Notes
 
-关于计算机视觉、3D 感知与模型量化的论文笔记，共 **28 篇**。
+本人的论文阅读笔记。
 
-每篇笔记统一以「出处会议（期刊）/ 是否开源 / 关键词」三行开头，正文以公式推导 + 直觉解释为主，配图统一放在 `assets/<论文名>/` 下。
+论文笔记统一以「出处会议（期刊）/ 是否开源 / 关键词」三行开头，正文以公式推导 + 直觉解释为主，配图统一放在 `assets/<论文名>/` 下；数学与通用笔记不带上述头部。
 
 ## 📂 目录结构
 
@@ -12,7 +12,7 @@
 | [`Multimodal_Fusion/`](Multimodal_Fusion) | 多传感器 / 雷达-相机融合 | 5 |
 | [`Quantization/`](Quantization) | 模型量化与压缩 | 8 |
 | [`3D_Occupancy/`](3D_Occupancy) | 3D 语义占用预测 | 5 |
-| [`Math_and_Notes/`](Math_and_Notes) | 数学与通用笔记 | 1 |
+| [`Math_and_Notes/`](Math_and_Notes) | 数学与通用笔记 | 3 |
 | [`assets/`](assets) | 论文插图与表格截图，按论文名分目录 | — |
 
 ## 经典检测
@@ -77,29 +77,12 @@
 | 笔记 | 关键词 |
 | --- | --- |
 | [刚体旋转表示法的深度解析](Math_and_Notes/%E5%9B%9B%E5%85%83%E6%95%B0.md) | 旋转矩阵、李群 SO(3)、四元数算法 |
+| [概率分布之间的距离与散度](Math_and_Notes/%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83%E4%B9%8B%E9%97%B4%E7%9A%84%E8%B7%9D%E7%A6%BB%E4%B8%8E%E6%95%A3%E5%BA%A6.md) | 总变差距离 (TVD)、KL 散度、JS 散度、三者的对比与相互关系 |
+| [损失函数](Math_and_Notes/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0.md) | 二分类交叉熵 (CE)、Focal Loss、`nn.CrossEntropyLoss` 用法与数值稳定性 |
 
-## 📌 素材与待整理
-
-`assets/` 下按论文名分目录存放插图与表格截图（命名如 `Figure3.png` / `Table5.png`，便于与论文对照）。以下目录已收集素材但**尚未成文**，欢迎按上面的格式补齐：
-
-**VLA / 多模态大模型**：`LLaVA`、`OpenVLA`、`OpenDriveVLA`、`OneVL`、`Qwen3-VL`、`Alpamago`、`COTR`、`DrivePI`
-
-**轻量骨干与压缩**：`MobileNet`、`MobileNetV2`、`MobileV3`、`MobileOne`、`ShuffleNet`、`LSQ`、`Deep Compression`、`BRCEQ`
-
-**BEV 与多模态融合**：`BEVDet`、`MIT-BEVFusion`、`MSMDFusion`、`RCBEVDet++`、`PillarNet`
-
-**参数高效微调**：`QLoRA`
-
-**感知基础 / 其它**：`KITTI`、`CameraParams`、`Misc`
-
-## 📝 笔记约定
+## 笔记约定
 
 - **头部三行**：`**出处会议：**`（期刊类用 `**出处期刊：**`）、`**是否开源：**`、`**关键词：**`，便于横向检索与 SOTA 对比表格引用。
 - **命名**：一篇论文一个文件，文件名用论文原名；论文 PDF 与插图统一放 `assets/<论文名>/`。
-- **层级**：单个一级标题 + 二级标题组织小节，便于在大纲面板中展开。
-
-## 🕘 更新记录
-
-| 日期 | 内容 |
-| --- | --- |
-| 2026-09-23 | 重建索引：补齐 3D 占用预测、R4Det、SGDet3D、PTQAT、VQ-Map 等此前漏收录的 13 篇笔记，新增素材待整理清单 |
+- **层级**：单个一级标题 + 二级标题组织小节，便于生成目录与锚点跳转。
+- **公式**：行内用 `$...$`，独立成行用 `$$...$$`（不要用 LaTeX 原生的 `\(...\)` / `\[...\]`，通用 Markdown 渲染器不识别）。
