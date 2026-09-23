@@ -6,3 +6,7 @@ Desktop.ini
 # Ignore temporary files
 *.tmp
 *.log
+*.workbuddy
+
+# Ignore editor state
+.obsidian/
